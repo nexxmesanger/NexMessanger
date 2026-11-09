@@ -674,28 +674,116 @@ function renderMsgs(){const c=cur();if(!c)return;let h='',pd='',pv=null;
 /* ---------- SYNC ---------- */
 let syncT=null,syncing=false;
 const SEEN_KEY='nex_seen';
+const MSG_CACHE_KEY='nex_msg_cache_v1';
+const MSG_CACHE_MAX_CHATS=40;
+const MSG_CACHE_MAX_MSGS=400;
 function seenMap(){try{return JSON.parse(localStorage.getItem(SEEN_KEY)||'{}')}catch(e){return{}}}
 function markSeen(c){if(!c.uid)return;const m=seenMap();m[c.uid]=Date.now();try{localStorage.setItem(SEEN_KEY,JSON.stringify(m))}catch(e){}}
+function msgCacheKey(uid){return MSG_CACHE_KEY+':'+(uid||'')}
+function loadMsgCache(userId){
+  if(!userId)return null;
+  try{
+    const raw=localStorage.getItem(msgCacheKey(userId));
+    if(!raw)return null;
+    const data=JSON.parse(raw);
+    if(!data||data.userId!==userId||!Array.isArray(data.chats))return null;
+    return data;
+  }catch(e){return null}
+}
+function saveMsgCache(){
+  const userId=S.me&&S.me.id;
+  if(!userId||S.guest)return;
+  try{
+    const chats=S.chats
+      .filter(c=>c.uid&&Array.isArray(c.msgs)&&c.msgs.length)
+      .slice()
+      .sort((a,b)=>((b.msgs[b.msgs.length-1]||{}).ts||0)-((a.msgs[a.msgs.length-1]||{}).ts||0))
+      .slice(0,MSG_CACHE_MAX_CHATS)
+      .map(c=>({
+        uid:c.uid,
+        name:c.name||'',
+        uname:c.uname||'',
+        kind:c.kind||'',
+        msgs:c.msgs.slice(-MSG_CACHE_MAX_MSGS).map(m=>({
+          id:m.id,from:m.from,text:m.text||'',file:m.file||null,
+          gift:m.gift||null,numgift:m.numgift||null,fwd:m.fwd||null,ts:m.ts||0
+        }))
+      }));
+    const payload={userId,seq:S.seq||0,savedAt:Date.now(),chats,users:{}};
+    // keep compact public profiles for cached peers
+    chats.forEach(c=>{
+      if(c.uid==='nex'||c.uid===userId)return;
+      const p=S.users[c.uid];
+      if(p)payload.users[c.uid]={id:p.id,name:p.name,username:p.username};
+    });
+    localStorage.setItem(msgCacheKey(userId),JSON.stringify(payload));
+  }catch(e){
+    // quota / private mode — ignore
+  }
+}
+let saveMsgCacheT=null;
+function scheduleSaveMsgCache(){
+  clearTimeout(saveMsgCacheT);
+  saveMsgCacheT=setTimeout(saveMsgCache,400);
+}
+function restoreMsgCache(){
+  const userId=S.me&&S.me.id;
+  const data=loadMsgCache(userId);
+  S.chats=[];
+  S.seq=0;
+  chatFor(userId); // saved messages
+  if(!data)return false;
+  if(data.users)Object.assign(S.users,data.users);
+  S.seq=Number(data.seq)||0;
+  const seen=seenMap();
+  data.chats.forEach(row=>{
+    if(!row||!row.uid)return;
+    const c=chatFor(row.uid);
+    if(row.name)c.name=row.name;
+    if(row.uname)c.uname=row.uname;
+    if(row.kind)c.kind=row.kind;
+    const msgs=Array.isArray(row.msgs)?row.msgs:[];
+    c.msgs=msgs.map(m=>({
+      id:m.id,from:m.from,text:m.text||'',file:m.file||undefined,
+      gift:m.gift||undefined,numgift:m.numgift||undefined,fwd:m.fwd||undefined,ts:m.ts||0
+    })).sort((a,b)=>a.ts-b.ts);
+    const last=c.msgs[c.msgs.length-1];
+    c.ts=last?last.ts:0;
+    c.unread=c.msgs.filter(m=>m.from==='in'&&m.ts>(seen[c.uid]||0)).length;
+  });
+  return true;
+}
 function chatFor(uid){let c=S.chats.find(x=>x.uid===uid);if(c)return c;
  const me=uid===S.me.id,svc=uid==='nex',p=S.users[uid]||{};
  c={id:++S.gid,uid,t:'dm',kind:me?'saved':svc?'svc':'',name:me?'Избранное':svc?'Nex':(p.name||'Пользователь'),uname:p.username||'',col:me||svc?5:(S.gid%7),msgs:[],unread:0,ts:0,members:0,own:1,on:0};
  S.chats.push(c);return c}
-function startSync(){S.seq=0;S.chats=[];chatFor(S.me.id);sync();clearInterval(syncT);syncT=setInterval(()=>{if(!document.hidden)sync()},3000)}
-function stopSync(){clearInterval(syncT);syncT=null;S.chats=[];S.seq=0;S.users={};S.nums=[];S.mine=[];S.gt=null}
+function startSync(){
+  restoreMsgCache();
+  renderList();
+  if(cur()){head();renderMsgs()}
+  sync();
+  clearInterval(syncT);
+  syncT=setInterval(()=>{if(!document.hidden)sync()},3000);
+}
+function stopSync(){clearInterval(syncT);syncT=null;saveMsgCache();S.chats=[];S.seq=0;S.users={};S.nums=[];S.mine=[];S.gt=null}
 function applyMsg(m,seen){const me=S.me.id,uid=m.from==='nex'?'nex':(m.from===me?m.to:m.from);const c=chatFor(uid);
  const i=c.msgs.findIndex(x=>x.id===m.id);
- if(m.del||m.hid){if(i>-1)c.msgs.splice(i,1);return}
+ if(m.del||m.hid){if(i>-1)c.msgs.splice(i,1);scheduleSaveMsgCache();return}
  const lm={id:m.id,from:m.from===me?'out':'in',text:m.text||'',file:m.file,gift:m.gift,numgift:m.numgift,fwd:m.fwd,ts:m.ts};
- if(i>-1){c.msgs[i]=lm;return}
+ if(i>-1){c.msgs[i]=lm;scheduleSaveMsgCache();return}
  c.msgs.push(lm);c.msgs.sort((a,b)=>a.ts-b.ts);
+ if(c.msgs.length>MSG_CACHE_MAX_MSGS)c.msgs=c.msgs.slice(-MSG_CACHE_MAX_MSGS);
+ c.ts=lm.ts||c.ts;
  if(c.id===S.cur){S.newId=lm.id;if(lm.from==='in')markSeen(c)}
- else if(lm.from==='in'&&lm.ts>(seen[uid]||0))c.unread++}
+ else if(lm.from==='in'&&lm.ts>(seen[uid]||0))c.unread++
+ scheduleSaveMsgCache()}
 async function sync(){if(syncing||!getToken())return;syncing=true;
  try{const r=await api('/sync?since='+S.seq);Object.assign(S.users,r.users||{});
   S.chats.forEach(c=>{const p=S.users[c.uid];if(p&&c.kind===''){c.name=p.name;c.uname=p.username}});
   const seen=seenMap();r.msgs.forEach(m=>applyMsg(m,seen));
   S.seq=Math.max(S.seq,r.seq||0);
-  if(r.msgs.length){renderList();if(cur()){head();renderMsgs()}}
+  if(r.msgs.length){renderList();if(cur()){head();renderMsgs()};saveMsgCache()}
+  else scheduleSaveMsgCache();
  }catch(e){if(e.status===401||e.message==='blocked'||e.message==='guest_expired'||e.message==='invalid_token'){logout();toast(errMsg(e))}}
  finally{syncing=false}}
 
@@ -711,7 +799,7 @@ function sendBtn(){const t=$('inp').value.trim();if(!t)return toast('Голос�
  sendMsg({text:t}).then(ok=>{if(!ok&&!$('inp').value){$('inp').value=t;inpUp()}})}
 function sendFile(el){const f=el.files[0];if(!f)return;const s=f.size>1048576?(f.size/1048576).toFixed(1)+' МБ':Math.max(1,Math.round(f.size/1024))+' КБ';sendMsg({file:{name:f.name,size:s}});el.value=''}
 async function delMsg(id,all){try{await api('/messages/'+id+(all?'?all=1':''),{method:'DELETE'})}catch(e){return toast(errMsg(e))}
- S.chats.forEach(ch=>{ch.msgs=ch.msgs.filter(m=>m.id!==id)});renderMsgs();renderList()}
+ S.chats.forEach(ch=>{ch.msgs=ch.msgs.filter(m=>m.id!==id)});saveMsgCache();renderMsgs();renderList()}
 function findMsg(id){const c=cur();return c&&c.msgs.find(m=>m.id===id)}
 function msgMenu(id,step){const c=cur(),m=findMsg(id);if(!c||!m)return;
  const prev=m.gift?'Подарок: '+(GIFTS[m.gift.k]||{}).n:m.numgift?'Номер '+m.numgift:m.file?m.file.name:m.text;
@@ -757,7 +845,7 @@ function closeMenus(){$('menu').hidden=true;$('emo').hidden=true}
 document.addEventListener('click',e=>{if(!e.target.closest('#menu'))$('menu').hidden=true});
 function toggleDis(){S.dis=!S.dis;head();closeMenus();toast(S.dis?'Новые сообщения исчезнут через 10 секунд':'Автоудаление выключено')}
 async function clearHist(){const c=cur();closeMenus();if(!c)return;if(!c.uid){c.msgs=[];renderMsgs();renderList();return}
- try{await api('/chats/clear',{method:'POST',body:JSON.stringify({to:c.uid})});c.msgs=[];renderMsgs();renderList();toast('История очищена')}catch(e){toast(errMsg(e))}}
+ try{await api('/chats/clear',{method:'POST',body:JSON.stringify({to:c.uid})});c.msgs=[];saveMsgCache();renderMsgs();renderList();toast('История очищена')}catch(e){toast(errMsg(e))}}
 /* ---------- SHEETS ---------- */
 const sheets={};function openSheet(n){$('w-'+n).classList.add('on')}
 function closeSheet(n){$('w-'+n).classList.remove('on')}
@@ -876,13 +964,6 @@ function openProfile(){closeSheet('drawer');renderProfile();$('profile').classLi
 function openSettings(){closeSheet('drawer');renderSettings();$('profile').classList.add('on');if(mob())history.pushState({p:1,c:history.state&&history.state.c},'')}
 function closeProfile(){if(history.state&&history.state.p)history.back();else $('profile').classList.remove('on')}
 function maskEmail(e){if(!e||e==='—')return 'Скрыт';const [u,d]=(e+'').split('@');if(!d)return 'Скрыт';return u[0]+'•••@'+d}
-async function topupTest(){
- if(S.guest)return toast('В гостевом режиме баланс недоступен');
- try{
-  const r=await api('/wallet/topup-test',{method:'POST',body:JSON.stringify({amount:500})});
-  S.balance=r.balance;renderSettings();toast('+500 NC');
- }catch(e){toast(e.message==='rate_limited'?'Подождите 10 сек':(e.message||'Ошибка'))}
-}
 async function saveProfile(){
  const name=($('edName')&&$('edName').value||'').trim();
  const user=($('edUser')&&$('edUser').value||'').trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
@@ -922,8 +1003,7 @@ function renderSettings(){S.page='s';const m=S.me;
  <div class="card"><h4>Аккаунт</h4>
   <div class="ln" onclick="renderProfile()">${ic('user')}<div><b>Имя и username</b><small>@${esc(m.user)}</small></div></div>
   <div class="ln" onclick="openNums()">${ic('phone')}<div><b>Анонимные номера</b><small>${S.nums.length} номер(ов)</small></div></div>
-  <div class="ln">${ic('wallet')}<div><b>Баланс</b><small>${S.balance.toLocaleString('ru')} NC</small></div>
-   <button class="buy" onclick="topupTest()">${ic('plus','sm')}</button></div>
+  <div class="ln">${ic('wallet')}<div><b>Баланс</b><small>${S.balance.toLocaleString('ru')} NC</small></div></div>
   <div class="ln" onclick="requestTgLink()">${ic('phone')}<div><b>Telegram-бот</b><small>Привязка для пополнения Stars → NC</small></div></div>
   <div class="ln">${ic('mail')}<div><b>${maskEmail(m.email)}</b><small>Email скрыт от других пользователей</small></div></div>
  </div>
@@ -950,6 +1030,8 @@ document.addEventListener('keydown',e=>{
 });
 
 
+document.addEventListener('visibilitychange',()=>{if(document.hidden)saveMsgCache()});
+window.addEventListener('beforeunload',()=>{try{saveMsgCache()}catch(e){}});
 (async function boot(){
  authTab('pass');loadConfig();
  const tok=getToken();
