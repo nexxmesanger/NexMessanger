@@ -40,6 +40,13 @@ input,textarea{font:inherit;color:inherit;outline:0;border:0;background:none}
 .btn:active{transform:scale(.98)}.btn:hover{filter:brightness(1.1)}.btn.sec{background:var(--hover);color:var(--acc)}.btn:disabled{opacity:.45;pointer-events:none}
 .av{width:var(--s,52px);height:var(--s,52px);border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:calc(var(--s,52px)*.4);color:#fff;flex-shrink:0;position:relative}
 .av.on::after{content:"";position:absolute;right:0;bottom:0;width:28%;height:28%;border-radius:50%;background:var(--ok);border:2px solid var(--panel)}
+.av img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.av-edit{position:relative;cursor:pointer;border-radius:50%;-webkit-user-select:none;user-select:none}
+.av-edit .av-cam{position:absolute;right:-2px;bottom:-2px;width:34px;height:34px;border-radius:50%;background:var(--btn);color:#fff;display:grid;place-items:center;border:3px solid var(--panel)}
+.av-edit .av-cam .i{width:18px;height:18px}
+.av-edit.busy{pointer-events:none}.av-edit.busy .av{opacity:.45}
+.av-edit.busy::after{content:"";position:absolute;inset:0;margin:auto;width:28px;height:28px;border-radius:50%;border:3px solid #ffffff55;border-top-color:#fff;animation:avspin .8s linear infinite}
+@keyframes avspin{to{transform:rotate(360deg)}}
 
 /* Nex polish */
 button,.ci,.di,.ln,.gt,.nl,.bub,.card,.field,.ib{transition:background .22s ease,color .22s ease,border-color .22s ease,transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease,opacity .22s ease}
@@ -278,6 +285,7 @@ button:active,.di:active,.ci:active{transform:scale(.985)}
 <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
 <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></symbol>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4zM12 17a4 4 0 100-8 4 4 0 000 8z"/></symbol>
 <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8zM14 3v5h5"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/></symbol>
@@ -408,13 +416,17 @@ button:active,.di:active,.ci:active{transform:scale(.985)}
 <div class="wrap" id="w-pass" onclick="if(event.target===this)closeSheet('pass')"><div class="sheet" id="s-pass"></div></div>
 <div class="toast" id="toast"></div>
 
+<input type="file" id="avFile" accept="image/jpeg,image/png,image/webp" hidden onchange="onAvatarPicked(this)">
 <script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ic=(n,c='')=>`<svg class="i ${c}"><use href="#i-${n}"/></svg>`;
 const GR=[['#ff885e','#ff516a'],['#ffcd6a','#ffa85c'],['#82b1ff','#665fff'],['#a0de7e','#54cb68'],['#53edd6','#28c9b7'],['#72d5fd','#2a9ef1'],['#e0a2f3','#d669ed']];
 const grad=i=>`linear-gradient(135deg,${GR[i%7][0]},${GR[i%7][1]})`;
-const av=(c,s=52,on)=>c.kind==='saved'?`<div class="av" style="--s:${s}px;background:linear-gradient(135deg,#4fb3f6,#2a8bd8)"><svg class="i" style="width:52%;height:52%"><use href="#i-bookmark"/></svg></div>`:`<div class="av ${on?'on':''}" style="--s:${s}px;background:${grad(c.col)}">${esc((c.name||'?')[0].toUpperCase())}</div>`;
+const avUrl=c=>{const u=c.avatar||(c.uid&&S.users&&S.users[c.uid]&&S.users[c.uid].avatar_url)||'';return /^https:\/\//i.test(u)?u:''};
+function avFail(i){const p=i.parentNode;if(p)p.textContent=i.dataset.l||'?'}
+const avInner=c=>{const l=(c.name||'?')[0].toUpperCase(),u=avUrl(c);return u?`<img src="${esc(u)}" alt="" data-l="${esc(l)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="avFail(this)">`:esc(l)};
+const av=(c,s=52,on)=>c.kind==='saved'?`<div class="av" style="--s:${s}px;background:linear-gradient(135deg,#4fb3f6,#2a8bd8)"><svg class="i" style="width:52%;height:52%"><use href="#i-bookmark"/></svg></div>`:`<div class="av ${on?'on':''}" style="--s:${s}px;background:${grad(c.col)}">${avInner(c)}</div>`;
 const RAR={common:['Обычный','#8fa3b8','12%'],rare:['Редкий','#4ea1ff','4%'],epic:['Эпический','#b46bff','1.5%'],legendary:['Легендарный','#ffb23e','0.3%']};
 const MODELS=['Классика','Неон','Лёд'],BACKS=['Полночь','Закат','Нефрит','Лаванда','Янтарь'],SYMS=['Молния','Луна','Волна','Искра','Ромб'];
 const sp=(x,y,s,d)=>`<g transform="translate(${x} ${y}) scale(${s})"><path class="a-tw" style="animation-delay:${d}s" d="M0-5L1.4-1.4 5 0 1.4 1.4 0 5-1.4 1.4-5 0-1.4-1.4Z" fill="#fff"/></g>`;
@@ -523,6 +535,7 @@ function setToken(t){t?localStorage.setItem(TOKEN_KEY,t):localStorage.removeItem
 async function api(path,opts={}){
   const headers=Object.assign({'Content-Type':'application/json','X-Nex-Device':deviceId()},opts.headers||{});
   const tok=getToken();if(tok)headers.Authorization='Bearer '+tok;
+  if(typeof FormData!=='undefined'&&opts.body instanceof FormData)delete headers['Content-Type'];
   const r=await fetch(API+path,Object.assign({},opts,{headers}));
   let data=null;try{data=await r.json()}catch(e){data={}}
   if(!r.ok){
@@ -562,7 +575,7 @@ function rememberGiftItem(item){
 }
 function applyUser(u){
   if(!u)return;
-  S.me={name:u.name||S.me.name,user:u.username||S.me.user,email:u.email||S.me.email,id:u.id,guest:!!u.guest,exp:u.exp||0,passwordSet:!!u.passwordSet};
+  S.me={name:u.name||S.me.name,user:u.username||S.me.user,email:u.email||S.me.email,id:u.id,guest:!!u.guest,exp:u.exp||0,passwordSet:!!u.passwordSet,avatar:u.avatar_url||''};
   if(typeof u.balance==='number')S.balance=u.balance;
   if(u.numbers)S.nums=u.numbers.map(n=>({num:n.display,raw:n.number,main:!!n.main}));
   if(u.gifts){
@@ -595,7 +608,8 @@ let pmode='login',tsToken='',tsId=null;
 function passMode(m){pmode=m;$('segLogin').classList.toggle('on',m==='login');$('segReg').classList.toggle('on',m==='register');
  $('inName').hidden=m!=='register';$('pwHint').hidden=m!=='register';$('inPass').autocomplete=m==='register'?'new-password':'current-password';authTab('pass')}
 function showForms(only){['pass','email','code','num','guest'].forEach(x=>{const el=$('f-'+x);if(el)el.hidden=x!==only})}
-const ERR={invalid_email:'Некорректный email',invalid_username:'Логин: 3–24 символа, a–z, 0–9 и _',password_too_short:'Пароль: минимум 8 символов',password_too_long:'Пароль слишком длинный',invalid_name:'Имя: от 2 до 32 символов',username_taken:'Этот логин уже занят',invalid_credentials:'Неверный логин или пароль',password_not_set:'У этого аккаунта нет пароля. Войдите по коду на email («Другой способ входа») и задайте пароль в настройках',turnstile_failed:'Проверка не пройдена, попробуйте ещё раз',legacy_email_auth_disabled:'Вход по email отключён',legacy_registration_disabled:'Регистрация по email отключена',current_password_required:'Введите текущий пароль',current_password_invalid:'Текущий пароль неверный',database_unavailable:'База данных недоступна, попробуйте позже',otp_invalid:'Неверный код',otp_expired:'Код истёк',otp_locked:'Слишком много попыток',otp_not_found:'Запросите код снова',number_not_found:'Такой номер не зарегистрирован',invalid_number:'Формат: +888 и 8 цифр',guest_forbidden:'Недоступно в гостевом режиме',guest_expired:'Гостевой доступ закончился',insufficient_funds:'Недостаточно NC',recipient_not_found:'Получатель не найден',recipient_guest:'Гостям нельзя отправлять подарки',number_taken:'Номер уже занят',number_not_owned:'Этот номер вам не принадлежит',item_not_found:'Подарок не найден',invalid_gift:'Неизвестный подарок',same_user:'Нельзя отправить себе из инвентаря этим способом',empty_message:'Пустое сообщение',invalid_request:'Некорректный запрос',blocked:'Аккаунт заблокирован',server_error:'Ошибка сервера',not_found:'Не найдено',unauthorized:'Нужно войти заново',invalid_token:'Сессия истекла, войдите заново',http_404:'Сервер не знает этот запрос. Обновите бэкенд на Render',http_502:'Сервер просыпается, повторите через полминуты',http_503:'Сервер просыпается, повторите через полминуты',http_504:'Сервер просыпается, повторите через полминуты'};
+const AVERR={file_too_large:'Файл больше 5 МБ',unsupported_type:'Только JPEG, PNG или WebP',invalid_image:'Не удалось прочитать изображение',image_too_complex:'Изображение слишком сложное, выберите другое',no_file:'Файл не выбран',invalid_upload:'Некорректная загрузка',avatar_storage_unavailable:'Хранилище фото на сервере не настроено',avatar_upload_failed:'Не удалось загрузить фото, попробуйте ещё раз',avatar_delete_failed:'Не удалось удалить фото, попробуйте ещё раз',avatar_busy:'Фото уже обрабатывается',too_many_requests:'Слишком много загрузок, подождите немного'};
+const ERR={...AVERR,invalid_email:'Некорректный email',invalid_username:'Логин: 3–24 символа, a–z, 0–9 и _',password_too_short:'Пароль: минимум 8 символов',password_too_long:'Пароль слишком длинный',invalid_name:'Имя: от 2 до 32 символов',username_taken:'Этот логин уже занят',invalid_credentials:'Неверный логин или пароль',password_not_set:'У этого аккаунта нет пароля. Войдите по коду на email («Другой способ входа») и задайте пароль в настройках',turnstile_failed:'Проверка не пройдена, попробуйте ещё раз',legacy_email_auth_disabled:'Вход по email отключён',legacy_registration_disabled:'Регистрация по email отключена',current_password_required:'Введите текущий пароль',current_password_invalid:'Текущий пароль неверный',database_unavailable:'База данных недоступна, попробуйте позже',otp_invalid:'Неверный код',otp_expired:'Код истёк',otp_locked:'Слишком много попыток',otp_not_found:'Запросите код снова',number_not_found:'Такой номер не зарегистрирован',invalid_number:'Формат: +888 и 8 цифр',guest_forbidden:'Недоступно в гостевом режиме',guest_expired:'Гостевой доступ закончился',insufficient_funds:'Недостаточно NC',recipient_not_found:'Получатель не найден',recipient_guest:'Гостям нельзя отправлять подарки',number_taken:'Номер уже занят',number_not_owned:'Этот номер вам не принадлежит',item_not_found:'Подарок не найден',invalid_gift:'Неизвестный подарок',same_user:'Нельзя отправить себе из инвентаря этим способом',empty_message:'Пустое сообщение',invalid_request:'Некорректный запрос',blocked:'Аккаунт заблокирован',server_error:'Ошибка сервера',not_found:'Не найдено',unauthorized:'Нужно войти заново',invalid_token:'Сессия истекла, войдите заново',http_404:'Сервер не знает этот запрос. Обновите бэкенд на Render',http_502:'Сервер просыпается, повторите через полминуты',http_503:'Сервер просыпается, повторите через полминуты',http_504:'Сервер просыпается, повторите через полминуты'};
 function errMsg(e){
  if(e.message==='rate_limited'){const n=e.data&&e.data.retryAfter;return n?'Слишком много попыток. Повторите через '+(n>90?Math.ceil(n/60)+' мин':n+' с'):'Слишком много попыток. Подождите немного'}
  if(e.message==='blocked'){const until=e.data&&e.data.until;const reason=e.data&&e.data.reason;let s='Аккаунт заблокирован';if(until)s+=' до '+new Date(until).toLocaleString('ru');else s+=' навсегда';if(reason)s+=' · '+reason;return s}
@@ -696,7 +710,7 @@ function renderList(){const q=$('q').value.trim().toLowerCase();
  const a=S.chats.filter(c=>(S.f==='all'||c.t===S.f)&&(c.kind==='saved'?('избранное'.includes(q)||'saved'.includes(q)):c.name.toLowerCase().includes(q))&&(c.msgs.length||c.kind==='saved'||c.t!=='dm'||c.id===S.cur)).sort((x,y)=>lastM(y).ts-lastM(x).ts);
  let h=a.map(chatItem).join('');
  const g=(S.gres||[]).filter(u=>u.id!==S.me.id&&!S.chats.some(c=>c.uid===u.id&&c.msgs.length));
- if(q.length>=2&&g.length)h+='<div class="sr-h">Пользователи</div>'+g.map(u=>`<div class="ci" onclick="openUserChat('${u.id}')">${av({name:u.name,col:u.id.charCodeAt(0)%7},52)}<div class="cb"><div class="cn">${esc(u.name)}</div><div class="cp">@${esc(u.username)}</div></div></div>`).join('');
+ if(q.length>=2&&g.length)h+='<div class="sr-h">Пользователи</div>'+g.map(u=>`<div class="ci" onclick="openUserChat('${u.id}')">${av({name:u.name,col:u.id.charCodeAt(0)%7,avatar:u.avatar_url},52)}<div class="cb"><div class="cn">${esc(u.name)}</div><div class="cp">@${esc(u.username)}</div></div></div>`).join('');
  if(!h)h='<div class="none">'+(q?'Ничего не найдено':'Нет чатов')+'<br><span style="color:var(--acc);cursor:pointer" onclick="openNew(\'dm\')">Найти пользователя</span></div>';
  $('list').innerHTML=h}
 let gT;function onSearch(){renderList();clearTimeout(gT);const q=$('q').value.trim();if(q.replace(/^@/,'').length<2){S.gres=[];renderList();return}
@@ -707,7 +721,7 @@ function openUserChat(uid,u){u=u||S.users[uid];if(u&&uid!==S.me.id)S.users[uid]=
 const mob=()=>matchMedia('(max-width:859px)').matches;
 function openChat(id){S.cur=id;const c=cur();c.unread=0;markSeen(c);$('chat').style.visibility='visible';
  if(mob()&&!$('app').classList.contains('open'))history.pushState({c:1},'');
- $('app').classList.add('open');S.dis=false;closeMenus();head();inpUp();renderMsgs();renderList()}
+ $('app').classList.add('open');S.dis=false;closeMenus();head();inpUp();renderMsgs();renderList();peerRefresh(c)}
 function closeChat(){closeMenus();if(history.state&&history.state.c)history.back();else{$('app').classList.remove('open');S.cur=null;$('chat').style.visibility='hidden';renderList()}}
 addEventListener('popstate',()=>{const st=history.state||{};if(!st.p)$('profile').classList.remove('on');if(!st.c&&!st.p){$('app').classList.remove('open');S.cur=null;$('chat').style.visibility='hidden';renderList()}closeAll(true)});
 function head(){const c=cur();if(!c)return;$('hav').outerHTML=av(c,42,c.on&&c.t==='dm').replace('class="av','id="hav" class="av');
@@ -836,12 +850,12 @@ function applyMsg(m,seen){const me=S.me.id,uid=m.from==='nex'?'nex':(m.from===me
  else if(lm.from==='in'&&lm.ts>(seen[uid]||0))c.unread++
  scheduleSaveMsgCache()}
 async function sync(){if(syncing||!getToken())return;syncing=true;
- try{const r=await api('/sync?since='+S.seq);Object.assign(S.users,r.users||{});
+ try{const r=await api('/sync?since='+S.seq);let avCh=false;for(const id in (r.users||{})){const o=S.users[id];if(o&&(o.avatar_url||'')!==(r.users[id].avatar_url||''))avCh=true}Object.assign(S.users,r.users||{});
   S.chats.forEach(c=>{const p=S.users[c.uid];if(p&&c.kind===''){c.name=p.name;c.uname=p.username}});
   const seen=seenMap();r.msgs.forEach(m=>applyMsg(m,seen));
   S.seq=Math.max(S.seq,r.seq||0);
   if(r.msgs.length){renderList();if(cur()){head();renderMsgs()};saveMsgCache()}
-  else scheduleSaveMsgCache();
+  else{if(avCh){renderList();if(cur())head()}scheduleSaveMsgCache()}
  }catch(e){if(e.status===401||e.message==='blocked'||e.message==='guest_expired'||e.message==='invalid_token'){logout();toast(errMsg(e))}}
  finally{syncing=false}}
 
@@ -883,7 +897,7 @@ MS.addEventListener('contextmenu',e=>{const t=e.target.closest('[data-mid]');if(
 function openChatCard(){const c=cur();if(!c)return;if(c.kind==='saved')return openProfile();if(c.kind==='svc')return toast('Служебный чат Nex');if(c.t!=='dm'||!c.uname)return toast('Информация недоступна');openUserCard(c.uname)}
 async function openUserCard(un){try{const u=await api('/users/'+encodeURIComponent(un));S.users[u.id]=Object.assign(S.users[u.id]||{},u);S.card=u;drawUser();openSheet('user')}catch(e){toast(e.message==='not_found'?'Пользователь не найден':errMsg(e))}}
 function drawUser(){const u=S.card,me=u.id===S.me.id,nums=u.numbers||[],gs=u.gifts||[];
- $('s-user').innerHTML=`<div class="uh">${av({name:u.name,col:u.id.charCodeAt(0)%7},84)}<h3>${esc(u.name)}</h3><small>@${esc(u.username)} · в Nex с ${new Date(u.createdAt).toLocaleDateString('ru',{month:'long',year:'numeric'})}</small></div>
+ $('s-user').innerHTML=`<div class="uh">${av({name:u.name,col:u.id.charCodeAt(0)%7,avatar:u.avatar_url},84)}<h3>${esc(u.name)}</h3><small>@${esc(u.username)} · в Nex с ${new Date(u.createdAt).toLocaleDateString('ru',{month:'long',year:'numeric'})}</small></div>
  <div style="display:flex;gap:8px;margin-bottom:8px"><button class="btn" onclick="openUserChat('${u.id}')">${ic('chat','sm')} Написать</button>${me||S.guest?'':`<button class="btn sec" onclick="giftToUser()">${ic('gift','sm')} Подарок</button>`}</div>
  <div class="inv-head" style="padding-left:0;padding-right:0"><b>Анонимные номера</b><span class="inv-tag">${nums.length}</span></div>
  ${nums.length?nums.map(n=>`<div class="inv-item" style="padding-left:0;padding-right:0"><span style="color:var(--acc)">${ic('phone')}</span><span class="numtxt">${esc(n.display)}</span>${n.main?'<span class="inv-tag">Основной</span>':''}</div>`).join(''):'<div class="none" style="padding:12px">Нет номеров</div>'}
@@ -909,7 +923,7 @@ const sheets={};function openSheet(n){$('w-'+n).classList.add('on')}
 function closeSheet(n){$('w-'+n).classList.remove('on')}
 function closeAll(skipProfile){['drawer','new','shop','num','view','fav','act','user','to','pass'].forEach(closeSheet);if(!skipProfile)$('profile').classList.remove('on')}
 const bal=()=>`<span class="bal">${ic('wallet','sm')} ${S.balance.toLocaleString('ru')} NC</span>`;
-function openDrawer(){$('drawer').innerHTML=`<div class="dh">${av({name:S.me.name,col:5},64)}<div><b>${esc(S.me.name)}</b><br><small>@${esc(S.me.user)}</small></div></div>
+function openDrawer(){$('drawer').innerHTML=`<div class="dh">${av({name:S.me.name,avatar:S.me.avatar,col:5},64)}<div><b>${esc(S.me.name)}</b><br><small>@${esc(S.me.user)}</small></div></div>
  <button class="di" onclick="openProfile()">${ic('user')}<div><b>Мой профиль</b><small>Имя, фото, username</small></div></button>
  <button class="di" onclick="closeSheet('drawer');openSettings()">${ic('settings')}<div><b>Настройки</b><small>Приватность, чаты, данные</small></div></button>
  <div style="height:1px;background:var(--line);margin:6px 16px"></div>
@@ -932,7 +946,7 @@ function newSearch(){clearTimeout(nT);const q=$('nname').value.trim();
  if(q.replace(/^@/,'').length<2){$('nres').innerHTML='<div class="none">Введите минимум 2 символа</div>';return}
  nT=setTimeout(async()=>{try{const r=await api('/users/search?q='+encodeURIComponent(q));if(!$('nres')||$('nname').value.trim()!==q)return;
   const a=(r.users||[]).filter(u=>u.id!==S.me.id);a.forEach(u=>S.users[u.id]=u);
-  $('nres').innerHTML=a.map(u=>`<div class="ci" style="margin:0" onclick="openUserChat('${u.id}')">${av({name:u.name,col:u.id.charCodeAt(0)%7},44)}<div class="cb"><div class="cn">${esc(u.name)}</div><div class="cp">@${esc(u.username)}</div></div></div>`).join('')||'<div class="none">Никого не нашли</div>'}catch(e){$('nres')&&($('nres').innerHTML='<div class="none">'+esc(errMsg(e))+'</div>')}},300)}
+  $('nres').innerHTML=a.map(u=>`<div class="ci" style="margin:0" onclick="openUserChat('${u.id}')">${av({name:u.name,col:u.id.charCodeAt(0)%7,avatar:u.avatar_url},44)}<div class="cb"><div class="cn">${esc(u.name)}</div><div class="cp">@${esc(u.username)}</div></div></div>`).join('')||'<div class="none">Никого не нашли</div>'}catch(e){$('nres')&&($('nres').innerHTML='<div class="none">'+esc(errMsg(e))+'</div>')}},300)}
 function createChat(){const n=$('nname').value.trim();if(!n)return $('nerr').textContent='Введите название';
  const c={id:++S.gid,name:n,t:nt,col:S.gid%7,msgs:[],unread:0,ts:Date.now(),members:1,own:1,on:0};S.chats.push(c);closeSheet('new');openChat(c.id);toast(nt==='group'?'Группа создана (локально)':'Канал создан (локально)')}
 let sel=null;
@@ -940,7 +954,7 @@ function ctxTarget(){const c=cur();return c&&c.t==='dm'&&!c.kind&&c.uid?{uid:c.u
 function openShop(mode){if(S.guest)return toast('В гостевом режиме подарки недоступны');sel=null;
  if(mode==='self')S.gt=null;else if(mode!==true)S.gt=ctxTarget();
  drawShop();openSheet('shop');loadMarket().then(()=>drawShop()).catch(()=>{})}
-function drawShop(){const t=S.gt;$('s-shop').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><h3>Подарки</h3>${bal()}</div><div class="self-gift">${av(t?{name:t.name,col:t.uid.charCodeAt(0)%7}:{name:S.me.name,col:5},40)}<div style="flex:1"><b>${t?'Подарок для '+esc(t.name):'Подарок самому себе'}</b><small style="display:block;color:var(--sub)">${t?'Получатель увидит его в своём профиле':'Попадёт в ваш инвентарь'}</small></div><button class="buy" onclick="${t?'S.gt=null;drawShop()':"pickRecipient('shop')"}">${t?'Себе':'Кому-то'}</button></div>
+function drawShop(){const t=S.gt;$('s-shop').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><h3>Подарки</h3>${bal()}</div><div class="self-gift">${av(t?{name:t.name,col:t.uid.charCodeAt(0)%7,avatar:(S.users[t.uid]||{}).avatar_url}:{name:S.me.name,avatar:S.me.avatar,col:5},40)}<div style="flex:1"><b>${t?'Подарок для '+esc(t.name):'Подарок самому себе'}</b><small style="display:block;color:var(--sub)">${t?'Получатель увидит его в своём профиле':'Попадёт в ваш инвентарь'}</small></div><button class="buy" onclick="${t?'S.gt=null;drawShop()':"pickRecipient('shop')"}">${t?'Себе':'Кому-то'}</button></div>
  <div class="gg" style="padding:0;margin-bottom:14px">${Object.entries(GIFTS).map(([k,g])=>`<div class="gt ${sel===k?'sel':''}" style="--rc:${RAR[g.r][1]}" onclick="sel='${k}';drawShop()"><div class="ga">${art(k)}</div><b>${g.n}</b><small style="color:${RAR[g.r][1]}">${RAR[g.r][0]}</small><span class="pr">${g.p} NC</span></div>`).join('')}</div>
  <button class="btn" ${sel?'':'disabled'} onclick="sendGift()">${sel?`${t?'Подарить':'Купить себе'} за ${GIFTS[sel].p} NC`:'Выберите подарок'}</button>`;hydrateArts($('s-shop'))}
 async function sendGift(){const g=GIFTS[sel];if(!g)return;if(S.balance<g.p)return toast('Недостаточно NC');const t=S.gt;
@@ -957,7 +971,7 @@ let toT;function toSearch(){clearTimeout(toT);const q=$('toq').value.trim();
  const local=S.chats.filter(c=>c.t==='dm'&&!c.kind&&c.uid&&c.name.toLowerCase().includes(q.toLowerCase().replace(/^@/,''))).map(c=>({id:c.uid,name:c.name,username:c.uname}));
  paintTo(local,q);if(q.replace(/^@/,'').length<2)return;
  toT=setTimeout(async()=>{try{const r=await api('/users/search?q='+encodeURIComponent(q));if(!$('toq')||$('toq').value.trim()!==q)return;const ids=new Set(local.map(x=>x.id));paintTo(local.concat((r.users||[]).filter(u=>!ids.has(u.id)&&u.id!==S.me.id)),q)}catch(e){}},300)}
-function paintTo(a,q){a.forEach(u=>{S.users[u.id]=Object.assign(S.users[u.id]||{},u)});$('tolist').innerHTML=a.map(u=>`<div class="ci" style="margin:0" onclick="chooseTo('${u.id}')">${av({name:u.name,col:u.id.charCodeAt(0)%7},44)}<div class="cb"><div class="cn">${esc(u.name)}</div><div class="cp">@${esc(u.username||'')}</div></div></div>`).join('')||`<div class="none">${q?'Никого не найдено':'Начните вводить имя или @username'}</div>`}
+function paintTo(a,q){a.forEach(u=>{S.users[u.id]=Object.assign(S.users[u.id]||{},u)});$('tolist').innerHTML=a.map(u=>`<div class="ci" style="margin:0" onclick="chooseTo('${u.id}')">${av({name:u.name,col:u.id.charCodeAt(0)%7,avatar:u.avatar_url},44)}<div class="cb"><div class="cn">${esc(u.name)}</div><div class="cp">@${esc(u.username||'')}</div></div></div>`).join('')||`<div class="none">${q?'Никого не найдено':'Начните вводить имя или @username'}</div>`}
 async function chooseTo(uid){const u=S.users[uid];if(!u)return;const P=S.pend||{};
  if(S.pur==='shop'){S.gt={uid,name:u.name};closeSheet('to');drawShop();openSheet('shop');return}
  try{
@@ -1017,6 +1031,66 @@ async function requestTgLink(){
   }catch(e){toast(errMsg(e))}
 }
 
+/* ---------- AVATARS ---------- */
+const AV_MAX=5*1024*1024,AV_RESIZE_ABOVE=3*1024*1024,AV_SEND_MAX=1280;
+const _peerTs={};
+function peerRefresh(c){
+  if(!c||c.kind!==''||c.t!=='dm'||!c.uid||!c.uname||!getToken())return;
+  const now=Date.now();if(_peerTs[c.uid]&&now-_peerTs[c.uid]<60000)return;_peerTs[c.uid]=now;
+  api('/users/'+encodeURIComponent(c.uname)).then(u=>{
+    const old=(S.users[u.id]&&S.users[u.id].avatar_url)||'';
+    S.users[u.id]=Object.assign(S.users[u.id]||{},u);
+    if((u.avatar_url||'')!==old){renderList();const k=cur();if(k&&k.uid===u.id)head()}
+  }).catch(()=>{});
+}
+function setAvBusy(b){S.avBusy=b;document.querySelectorAll('.av-edit').forEach(e=>e.classList.toggle('busy',b))}
+function avRefresh(){renderList();if(cur())head();refreshPage()}
+function pickAvatar(){if(S.avBusy)return;if(!getToken())return toast('Войдите в аккаунт');$('avFile').click()}
+// Phone photos are often > 5 MB: shrink big files in the browser first (server re-encodes to <=200 KB WebP anyway).
+async function prepAvatar(f){
+  if(f.size<=AV_RESIZE_ABOVE)return f;
+  let bmp=null;
+  try{bmp=await createImageBitmap(f,{imageOrientation:'from-image'})}catch(e){bmp=null}
+  if(!bmp){
+    bmp=await new Promise((ok,no)=>{const u=URL.createObjectURL(f),i=new Image();
+      i.onload=()=>{URL.revokeObjectURL(u);ok(i)};
+      i.onerror=()=>{URL.revokeObjectURL(u);no(new Error('invalid_image'))};
+      i.src=u});
+  }
+  const w=bmp.width||bmp.naturalWidth,h=bmp.height||bmp.naturalHeight;
+  if(!w||!h)throw new Error('invalid_image');
+  const k=Math.min(1,AV_SEND_MAX/Math.max(w,h));
+  const cv=document.createElement('canvas');cv.width=Math.max(1,Math.round(w*k));cv.height=Math.max(1,Math.round(h*k));
+  const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,cv.width,cv.height);cx.drawImage(bmp,0,0,cv.width,cv.height);
+  if(bmp.close){try{bmp.close()}catch(e){}}
+  const blob=await new Promise(ok=>cv.toBlob(ok,'image/jpeg',.9));
+  if(!blob)throw new Error('invalid_image');
+  return blob;
+}
+async function onAvatarPicked(el){
+  const f=el.files&&el.files[0];el.value='';
+  if(!f||S.avBusy)return;
+  if(!/^image\/(jpeg|png|webp)$/.test(f.type))return toast(AVERR.unsupported_type);
+  setAvBusy(true);
+  try{
+    const blob=await prepAvatar(f);
+    if(blob.size>AV_MAX)throw new Error('file_too_large');
+    const fd=new FormData();fd.append('avatar',blob,blob===f?(f.name||'avatar'):'avatar.jpg');
+    const r=await api('/me/avatar',{method:'POST',body:fd});
+    S.me.avatar=r.avatar_url||'';
+    toast('Фото профиля обновлено');
+  }catch(e){toast(errMsg(e))}
+  finally{setAvBusy(false);avRefresh()}
+}
+async function removeAvatar(){
+  if(S.avBusy||!S.me.avatar)return;
+  if(!confirm('Удалить фото профиля?'))return;
+  setAvBusy(true);
+  try{await api('/me/avatar',{method:'DELETE'});S.me.avatar='';toast('Фото удалено')}
+  catch(e){toast(errMsg(e))}
+  finally{setAvBusy(false);avRefresh()}
+}
+
 /* ---------- PROFILE ---------- */
 function openProfile(){closeSheet('drawer');renderProfile();$('profile').classList.add('on');if(mob())history.pushState({p:1,c:history.state&&history.state.c},'')}
 function openSettings(){closeSheet('drawer');renderSettings();$('profile').classList.add('on');if(mob())history.pushState({p:1,c:history.state&&history.state.c},'')}
@@ -1038,11 +1112,12 @@ async function saveProfile(){
 }
 function renderProfile(){S.page='p';const m=S.me;
  $('profile').innerHTML=`<div class="pbar"><button class="ib" onclick="closeProfile()" aria-label="Назад">${ic('back')}</button><h2>Профиль</h2></div>
- <div class="ph">${av({name:m.name,col:5},96)}<h1>${esc(m.name)}</h1><small>@${esc(m.user)} · ${S.guest?'Гость':'в сети'}</small></div>
+ <div class="ph"><div class="av-edit${S.avBusy?' busy':''}" onclick="pickAvatar()" role="button" aria-label="Изменить фото">${av({name:m.name,avatar:m.avatar,col:5},96)}<span class="av-cam">${ic('camera')}</span></div><h1>${esc(m.name)}</h1><small>@${esc(m.user)} · ${S.guest?'Гость':'в сети'}</small></div>
  <div class="card"><h4>Аккаунт</h4>
   <div class="ln">${ic('user')}<div style="flex:1"><b>Имя</b><input class="field" id="edName" value="${esc(m.name)}" maxlength="32" style="margin-top:6px;padding:10px 12px"></div></div>
   <div class="ln">${ic('at')}<div style="flex:1"><b>Имя пользователя</b><input class="field" id="edUser" value="${esc(m.user)}" maxlength="24" style="margin-top:6px;padding:10px 12px" placeholder="username"><small style="display:block;margin-top:4px">@username · только латиница, цифры и _</small></div></div>
-  <button class="btn" style="margin-top:8px" onclick="saveProfile()">Сохранить</button>
+  <div class="ln">${ic('camera')}<div style="flex:1"><b>Фото профиля</b><small>JPEG, PNG или WebP · до 5 МБ</small></div><button class="btn sec" style="width:auto;padding:8px 14px" onclick="pickAvatar()">${m.avatar?'Заменить':'Загрузить'}</button>${m.avatar?`<button class="ib" onclick="removeAvatar()" aria-label="Удалить фото" style="color:var(--err)">${ic('trash')}</button>`:''}</div>
+   <button class="btn" style="margin-top:8px" onclick="saveProfile()">Сохранить</button>
  </div>
  <div class="card"><h4>Конфиденциальность</h4>
   <div class="ln">${ic('mail')}<div><b>${maskEmail(m.email)}</b><small>Email скрыт от всех · виден только вам</small></div></div>
@@ -1056,7 +1131,7 @@ function renderProfile(){S.page='p';const m=S.me;
  <div class="card"><button class="di" style="color:var(--err)" onclick="logout()">${ic('out')}Выйти из аккаунта</button></div>`;hydrateArts($('profile'))}
 function renderSettings(){S.page='s';const m=S.me;
  $('profile').innerHTML=`<div class="pbar"><button class="ib" onclick="closeProfile()" aria-label="Назад">${ic('back')}</button><h2>Настройки</h2></div>
- <div class="ph" style="padding-bottom:12px">${av({name:m.name,col:5},72)}<h1 style="font-size:18px;margin-top:8px">${esc(m.name)}</h1><small>@${esc(m.user)}</small>
+ <div class="ph" style="padding-bottom:12px">${av({name:m.name,avatar:m.avatar,col:5},72)}<h1 style="font-size:18px;margin-top:8px">${esc(m.name)}</h1><small>@${esc(m.user)}</small>
   <button class="btn sec" style="width:auto;margin-top:10px;padding:8px 16px" onclick="renderProfile()">Редактировать профиль</button></div>
  <div class="card"><h4>Аккаунт</h4>
   <div class="ln" onclick="renderProfile()">${ic('user')}<div><b>Имя и username</b><small>@${esc(m.user)}</small></div></div>
