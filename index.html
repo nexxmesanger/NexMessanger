@@ -48,7 +48,8 @@ input,textarea{font:inherit;color:inherit;outline:0;border:0;background:none}
 .chat-gate{position:absolute;left:10px;right:10px;bottom:calc(10px + var(--sb));z-index:7;padding:15px;border-radius:18px;background:rgba(23,33,43,.97);border:1px solid #ffffff14;box-shadow:0 8px 30px #0007;text-align:center;backdrop-filter:blur(12px)}
 .chat-gate b{display:block;margin-bottom:5px}.chat-gate p{font-size:13px;color:var(--sub);margin-bottom:12px}.gate-actions{display:flex;gap:8px}.gate-actions .btn{flex:1;padding:11px 8px}.gate-actions .btn.sec{background:var(--hover)}
 .search-hit .cp{white-space:normal;display:block;max-height:38px;overflow:hidden}.search-hit .cp mark{background:#2aabee38;color:#d8efff;border-radius:3px}
-.status-note{font-size:13px;color:#c6d6e5;margin:5px 0 0;overflow-wrap:anywhere}
+.status-note{font-size:13px;color:#c6d6e5;margin:7px 0 0;overflow-wrap:anywhere;display:flex;align-items:center;gap:7px}.status-mark{width:22px;height:22px;flex:0 0 22px;filter:drop-shadow(0 2px 4px #0005)}.status-picker{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:9px}.status-pick{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:62px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--sub);font-size:10px;padding:7px 2px}.status-pick.active{border-color:#3390ec;background:#3390ec20;color:var(--txt);box-shadow:0 0 0 1px #3390ec40}.status-pick svg{width:27px;height:27px}.status-edit-row{display:flex;align-items:center;gap:8px;margin-top:7px}.status-edit-row .status-mark{width:28px;height:28px;flex-basis:28px}
+.collection-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.collection-head h3{margin:0}.collection-stat{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid #ffffff20;border-radius:12px;background:#ffffff08}.collection-filters{display:flex;gap:6px;overflow:auto;padding:4px 0 12px}.collection-filter{white-space:nowrap;border:1px solid #ffffff20;background:#ffffff08;color:var(--txt);border-radius:20px;padding:7px 11px;font-size:12px}.collection-filter.active{background:#2aabee30;border-color:#2aabee;color:#bde7ff}.collection-grid{padding:0;grid-template-columns:repeat(3,minmax(0,1fr))}.collection-grid .gt{width:100%;min-width:0}
 .profile-level{display:inline-flex;align-items:center;gap:5px;margin-top:4px;padding:3px 9px;border-radius:999px;background:#d6a74720;color:#e7bd66;font-size:12px;font-weight:700;letter-spacing:.1px}
 .profile-level{border:0;font:inherit;cursor:pointer;user-select:none}.profile-level:active{transform:scale(.97)}.profile-level:focus-visible{outline:2px solid #e7bd66;outline-offset:3px}
 .level-progress-track{height:10px;background:var(--hover);border-radius:999px;overflow:hidden;margin:12px 0 7px}
@@ -181,8 +182,8 @@ button:active,.di:active,.ci:active{transform:scale(.985)}
 .au{font-weight:600;font-size:13.5px;margin-bottom:2px;display:block}
 .meta{float:right;margin:6px 0 -2px 10px;font-size:11.5px;color:rgba(255,255,255,.55);display:inline-flex;align-items:center;gap:2px;user-select:none;white-space:nowrap}
 .in .meta{color:rgba(139,154,171,.85)}.out .meta{color:rgba(255,255,255,.7)}.meta .i{width:16px;height:16px;stroke-width:2.2}.meta .rd{color:#fff}
-.file{display:flex;gap:10px;align-items:center;margin:2px 0 4px}.file .fi{width:44px;height:44px;border-radius:50%;background:#ffffff30;display:grid;place-items:center;color:#fff}
-.file b{display:block;font-weight:500;word-break:break-all}.file small{color:#ffffffb0;font-size:13px}
+.file{display:flex;gap:10px;align-items:center;margin:2px 0 4px;min-width:0}.file .fi{width:44px;height:44px;border-radius:14px;background:#ffffff18;display:grid;place-items:center;color:#fff;flex:0 0 44px}
+.file b{display:block;font-weight:500;word-break:break-word}.file small{display:block;color:#ffffffb0;font-size:13px;margin-top:2px}.file-card{display:flex;align-items:center;gap:10px;max-width:min(100%,340px);padding:8px 10px;border-radius:13px;background:#ffffff12;color:inherit;text-decoration:none}.file-info{min-width:0;flex:1}.file-download{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#ffffff18;flex:0 0 36px}.file-card:active{opacity:.8}.voice-player{display:flex;align-items:center;gap:8px;min-width:210px;max-width:300px;padding:8px 10px;border-radius:14px;background:#ffffff12}.voice-player audio{width:100%;height:34px;min-width:0}.voice-label{font-size:11px;color:#ffffffb0;margin-top:3px}.voice-bar{display:flex;align-items:center;gap:9px;padding:8px 12px;margin:0 0 8px;border-radius:12px;background:#e74c6530;color:var(--txt);font-size:13px}.voice-dot{width:9px;height:9px;border-radius:50%;background:#ff536d;box-shadow:0 0 0 4px #ff536d25;animation:voicepulse 1s infinite}.voice-bar b{font-variant-numeric:tabular-nums}.voice-bar button{margin-left:auto;color:#ff899a;font-weight:600}.sendb.recording{background:#e74c65;color:#fff;animation:voicepulse 1s infinite}.sendb:disabled{opacity:.5;pointer-events:none}@keyframes voicepulse{50%{opacity:.55}}
 .svc{text-align:center;margin:8px 0}.svc span{background:var(--glass);padding:5px 14px;border-radius:14px;font-size:13px;display:inline-flex;gap:6px;align-items:center}
 .ia{position:absolute;left:0;right:0;bottom:0;padding:6px 8px calc(8px + var(--sb));z-index:5;pointer-events:none;background:var(--panel)}
 .ia>*{pointer-events:auto}
@@ -191,7 +192,7 @@ button:active,.di:active,.ci:active{transform:scale(.985)}
 .ibox .ib{height:46px;width:44px;color:#8b9aab}
 .ibox textarea{flex:1;resize:none;padding:12px 2px;font-size:16px;max-height:140px;min-height:46px;line-height:22px;min-width:0}
 .ibox textarea::placeholder{color:#6d7d8f}
-.sendb{width:46px;height:46px;background:var(--mic);color:#fff;box-shadow:none;flex-shrink:0;border-radius:50%}
+.sendb{width:46px;height:46px;background:var(--mic);color:#fff;box-shadow:none;flex-shrink:0;border-radius:50%;touch-action:none;user-select:none;-webkit-user-select:none}
 .sendb:hover,.sendb:active{background:var(--mic);color:#fff;filter:brightness(1.08)}
 .mutebar{position:absolute;left:10px;right:10px;bottom:calc(10px + var(--sb));z-index:5;text-align:center;color:var(--acc);font-weight:600;padding:14px;border-radius:22px;background:var(--panel)}
 .down{position:absolute;right:12px;bottom:calc(var(--ih,70px) + 14px);width:42px;height:42px;border-radius:50%;background:var(--panel);display:grid;place-items:center;z-index:5;box-shadow:0 2px 10px rgba(0,0,0,.35);animation:pop .2s;border:1px solid rgba(255,255,255,.06)}
@@ -350,6 +351,8 @@ button:active,.di:active,.ci:active{transform:scale(.985)}
 <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></symbol>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
 <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4zM12 17a4 4 0 100-8 4 4 0 000 8z"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m21 15-5-5L5 20"/></symbol>
 <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8zM14 3v5h5"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/></symbol>
@@ -370,6 +373,32 @@ button:active,.di:active,.ci:active{transform:scale(.985)}
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol>
 <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
 <symbol id="i-fwd" viewBox="0 0 24 24"><path d="M15 4l6 6-6 6M21 10H9a6 6 0 00-6 6v4"/></symbol>
+<symbol id="status-verified" viewBox="0 0 24 24"><path d="M12 1.8 14.8 3l3-.1 1.5 2.6 2.6 1.5-.1 3 1.2 2.8-1.2 2.8.1 3-2.6 1.5-1.5 2.6-3-.1-2.8 1.2-2.8-1.2-3 .1-1.5-2.6-2.6-1.5.1-3L1 12l1.2-2.8-.1-3 2.6-1.5L6.2 2.1l3 .1L12 1.8Z" fill="#3390ec"/><path d="m7.5 12.2 3 3 6.3-6.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="status-online" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#22c77a"/><path d="m7.5 12 3 3 6-6" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="status-busy" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#ef5364"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
+<symbol id="status-away" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#f3b33d"/><path d="M12 6v6l4 2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="status-work" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3" fill="#647ee8"/><path d="M9 6V4h6v2M3 11h18M10 11v2h4v-2" fill="none" stroke="#fff" stroke-width="1.8"/></symbol>
+<symbol id="status-gaming" viewBox="0 0 24 24"><path d="M7 8h10c3 0 5 3 5 7 0 3-2 4-4 2l-2-2H8l-2 2c-2 2-4 1-4-2 0-4 2-7 5-7Z" fill="#8b67e8"/><path d="M8 10v5M5.5 12.5h5M16 11h.1M19 14h.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="status-music" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#d65bd8"/><path d="M14 6v9.5a2.5 2.5 0 1 1-2-2.45V8l6-1v7.5a2.5 2.5 0 1 1-2-2.45V6Z" fill="#fff"/></symbol>
+<symbol id="status-love" viewBox="0 0 24 24"><path d="M12 21S3 15.5 3 9.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 2.5C21 15.5 12 21 12 21Z" fill="#f05b8d" stroke="#ffb4ce" stroke-width="1"/></symbol>
+<symbol id="status-fire" viewBox="0 0 24 24"><path d="M13 2c1 5-3 6-2 10 1-1 2-2 2-4 5 3 7 7 5 11-2 5-10 5-12 0-2-5 2-9 4-11 0 4 1 5 2 5 2-3 1-7 1-11Z" fill="#ff8a35" stroke="#ffd078" stroke-width="1"/></symbol>
+<symbol id="status-coffee" viewBox="0 0 24 24"><path d="M5 8h12v7a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5V8Zm12 2h2a2.5 2.5 0 0 1 0 5h-2" fill="#b8794c" stroke="#f2c49d" stroke-width="1.5"/><path d="M8 5c-1-1 1-2 0-3m4 3c-1-1 1-2 0-3" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></symbol>
+<symbol id="status-sleep" viewBox="0 0 24 24"><path d="M19.5 15.5A8.5 8.5 0 0 1 8.5 4.5 8.5 8.5 0 1 0 19.5 15.5Z" fill="#7888e8"/><path d="M15 4h5l-5 5h5" fill="none" stroke="#dce2ff" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+<symbol id="status-plane" viewBox="0 0 24 24"><path d="m3 13 18-8-6 16-3-6-9-2Z" fill="#39b8e8" stroke="#c8f2ff" stroke-width="1.2" stroke-linejoin="round"/><path d="m12 15 4-6" stroke="#fff" stroke-width="1.4"/></symbol>
+<symbol id="status-book" viewBox="0 0 24 24"><path d="M4 4h7a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H4V4Zm16 0h-3a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h3V4Z" fill="#e6a84a" stroke="#ffe0a3" stroke-width="1.2"/></symbol>
+<symbol id="status-camera" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3" fill="#7b8da5"/><path d="m8 6 1.5-2h5L16 6" fill="#9fb2c9"/><circle cx="12" cy="13" r="4" fill="#e7f4ff"/><circle cx="12" cy="13" r="2" fill="#5d8db8"/></symbol>
+<symbol id="status-crown" viewBox="0 0 24 24"><path d="m3 8 5 4 4-8 4 8 5-4-2 12H5L3 8Z" fill="#f0bd42" stroke="#fff0a6" stroke-width="1.2"/><path d="M6 17h12" stroke="#fff" stroke-width="1.3"/></symbol>
+<symbol id="status-bolt" viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-7l1-7Z" fill="#f4d34e" stroke="#fff2a3" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+<symbol id="status-flower" viewBox="0 0 24 24"><path d="M12 11C4 11 5 3 9 3c2 0 3 2 3 5 0-3 1-5 3-5 4 0 5 8-3 8 8 0 8 8 4 8-2 0-4-2-4-5 0 3-1 5-3 5-4 0-4-8 3-8-8 0-8-8-4-8" fill="#ed83c2"/><circle cx="12" cy="12" r="2.5" fill="#ffd85c"/></symbol>
+<symbol id="status-heart" viewBox="0 0 24 24"><path d="M12 21S3 15.5 3 9.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 2.5C21 15.5 12 21 12 21Z" fill="#f05b8d"/></symbol>
+<symbol id="status-cat" viewBox="0 0 24 24"><path d="m4 9 1-6 6 4h2l6-4 1 6c2 2 2 7-1 10-4 4-12 4-16 0-3-3-3-8 1-10Z" fill="#e6a66f" stroke="#ffe0bd" stroke-width="1.2"/><path d="M8 12h.1M16 12h.1M9 16q3 3 6 0" stroke="#704b3b" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="status-dog" viewBox="0 0 24 24"><path d="M6 7 3 4 2 12c0 7 4 10 10 10s10-3 10-10l-1-8-4 3" fill="#c98b5c" stroke="#f3c69e" stroke-width="1.2"/><circle cx="9" cy="12" r="1" fill="#49352b"/><circle cx="15" cy="12" r="1" fill="#49352b"/><path d="M10 16q2 2 4 0" stroke="#49352b" stroke-width="1.5" fill="none"/></symbol>
+<symbol id="status-party" viewBox="0 0 24 24"><path d="m4 18 5-14 5 14H4Z" fill="#56b9e9"/><path d="m14 18 5-14 2 14h-7Z" fill="#e879b2"/><circle cx="5" cy="4" r="1.5" fill="#ffd45d"/><path d="m17 2 1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2Z" fill="#ffd45d"/></symbol>
+<symbol id="status-leaf" viewBox="0 0 24 24"><path d="M20 4C9 3 4 8 4 15c0 4 3 6 6 5 7-1 11-7 10-16Z" fill="#4dc58a" stroke="#b5f4d0" stroke-width="1.2"/><path d="M5 20 16 8" stroke="#eafff2" stroke-width="1.4"/></symbol>
+<symbol id="status-ghost" viewBox="0 0 24 24"><path d="M5 20V10a7 7 0 0 1 14 0v10l-3-2-2 2-2-2-2 2-2-2-3 2Z" fill="#a7b9d6" stroke="#eef5ff" stroke-width="1.2"/><circle cx="9" cy="11" r="1" fill="#44546a"/><circle cx="15" cy="11" r="1" fill="#44546a"/></symbol>
+<symbol id="status-gamepad" viewBox="0 0 24 24"><path d="M7 7h10c4 0 6 4 5 9-.5 3-2 4-4 2l-3-3H9l-3 3c-2 2-4 1-4-2C1 11 3 7 7 7Z" fill="#56a9e8" stroke="#c9eaff" stroke-width="1.2"/><path d="M8 10v5M5.5 12.5h5" stroke="#fff" stroke-width="1.5"/></symbol>
+<symbol id="status-chat" viewBox="0 0 24 24"><path d="M4 5h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 3v-3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" fill="#55b8e8"/><path d="M7 10h10M7 14h7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></symbol>
+<symbol id="status-coffee2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#a87550"/><path d="M7 9h9v5a4 4 0 0 1-4 4h-1a4 4 0 0 1-4-4V9Zm9 1h2a2 2 0 0 1 0 4h-2" fill="#f4d2b1"/></symbol>
 </defs></svg>
 
 <!-- AUTH -->
@@ -454,13 +483,14 @@ button:active,.di:active,.ci:active{transform:scale(.985)}
   <div class="ia" id="ia">
    <div class="emo" id="emo" hidden></div>
    <div class="reply-bar" id="replyBar" hidden><div><b>Ответ на сообщение</b><small id="replyText"></small></div><button class="ib" onclick="cancelReply()" aria-label="Отменить ответ">×</button></div>
+   <div class="voice-bar" id="voiceBar" hidden><span class="voice-dot"></span><b id="voiceTime">00:00</b><span>Запись голосового сообщения</span><button type="button" onclick="cancelVoiceRecording()">Отмена</button></div>
    <div class="ir">
     <div class="ibox">
      <button class="ib" onclick="toggleEmo()" aria-label="Эмодзи"><svg class="i"><use href="#i-smile"/></svg></button>
      <textarea id="inp" rows="1" placeholder="Сообщение" enterkeyhint="send"></textarea>
      <button class="ib" onclick="$('file').click()" aria-label="Прикрепить"><svg class="i"><use href="#i-clip"/></svg></button>
     </div>
-    <button class="ib sendb" id="sendb" onclick="sendBtn()" aria-label="Отправить"><svg class="i"><use href="#i-mic"/></svg></button>
+    <button class="ib sendb" id="sendb" type="button" aria-label="Зажмите для записи голосового сообщения" title="Зажмите для записи"><svg class="i"><use href="#i-mic"/></svg></button>
    </div>
    <input type="file" id="file" hidden onchange="sendFile(this)">
   </div>
@@ -624,7 +654,7 @@ const PAT=[[8,10,6],[86,8,8],[92,50,5],[5,58,7],[20,88,5],[80,86,7],[50,4,4],[52
 const pat=()=>'<div class="pat">'+PAT.map(([x,y,z],i)=>`<svg style="left:${x}%;top:${y}%;width:${z*2}px;height:${z*2}px;animation-delay:${i*.4}s" viewBox="-7 -7 14 14"><path d="M0-6L1.6-1.6 6 0 1.6 1.6 0 6-1.6 1.6-6 0-1.6-1.6Z"/></svg>`).join('')+'</div>';
 function burst(el){if(!el)return;const r=el.getBoundingClientRect(),C=['#ffd34d','#ff7aa8','#7cc4ff','#9bf0c0','#c590ff','#fff'];for(let i=0;i<24;i++){const e=document.createElement('i'),a=Math.random()*6.283,d=50+Math.random()*100;e.className='cf';e.style.cssText=`left:${r.left+r.width/2}px;top:${r.top+r.height/2}px;--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d-40}px;background:${C[i%6]};color:${C[i%6]}`;document.body.appendChild(e);setTimeout(()=>e.remove(),950)}}
 const now=Date.now(),MIN=6e4;
-const S={me:{name:'Nex User',user:'nex_user',email:'—',verified:false,privacy:{showLastSeen:true,showReadReceipts:true},profileTheme:'blue',profileFrame:'none',ownedFrames:['none'],statusText:'',notificationSettings:{enabled:false,preview:true,quietStart:'',quietEnd:''},reactionPacks:['classic']},balance:0,guest:false,cur:null,f:'all',dis:false,typing:{},pins:{},newId:null,gid:100,
+const S={me:{name:'Nex User',user:'nex_user',email:'—',verified:false,privacy:{showLastSeen:true,showReadReceipts:true},profileTheme:'blue',profileFrame:'none',ownedFrames:['none'],statusText:'',statusEmoji:'',notificationSettings:{enabled:false,preview:true,quietStart:'',quietEnd:''},reactionPacks:['classic']},balance:0,guest:false,cur:null,f:'all',dis:false,typing:{},pins:{},newId:null,gid:100,
  nums:[],
  mine:[],favorites:[],
  pool:[['+888 0421 7788',500],['+888 0913 2046',500],['+888 0000 7777',2400],['+888 0808 8080',1200],['+888 0357 9246',750],['+888 0100 0001',3000]],
@@ -685,14 +715,14 @@ function rememberGiftItem(item){
   const key=item.k+':'+item.num;
   const mine=S.mine||[];
   const i=mine.findIndex(g=>g.k===item.k&&g.num===item.num);
-  if(i>=0)mine[i]={...mine[i],id:item.id,from:item.from||mine[i].from};
-  else mine.push({id:item.id,k:item.k,num:item.num,from:item.from});
+  if(i>=0)mine[i]={...mine[i],id:item.id,from:item.from||mine[i].from,ts:item.ts||mine[i].ts};
+  else mine.push({id:item.id,k:item.k,num:item.num,from:item.from,ts:item.ts||null});
   S.mine=mine;
   persistGiftIds(S.me.id,S.mine);
 }
 function applyUser(u){
   if(!u)return;
-  S.me={name:u.name||S.me.name,user:u.username||S.me.user,email:u.email||S.me.email,id:u.id,guest:!!u.guest,exp:u.exp||0,passwordSet:!!u.passwordSet,avatar:u.avatar_url||'',verified:!!u.verified,privacy:u.privacy||{showLastSeen:true,showReadReceipts:true},profileTheme:u.profileTheme||'blue',profileFrame:u.profileFrame||'none',ownedFrames:Array.isArray(u.ownedFrames)?u.ownedFrames:['none'],statusText:u.statusText||'',notificationSettings:u.notificationSettings||{enabled:false,preview:true,quietStart:'',quietEnd:''},reactionPacks:Array.isArray(u.reactionPacks)?u.reactionPacks:['classic'],level:Math.max(1,Number(u.level)||1),spentNC:Math.max(0,Number(u.spentNC)||0),ratingAverage:Math.max(0,Number(u.ratingAverage)||0),ratingCount:Math.max(0,Number(u.ratingCount)||0)};
+  S.me={name:u.name||S.me.name,user:u.username||S.me.user,email:u.email||S.me.email,id:u.id,guest:!!u.guest,exp:u.exp||0,passwordSet:!!u.passwordSet,avatar:u.avatar_url||'',verified:!!u.verified,privacy:u.privacy||{showLastSeen:true,showReadReceipts:true},profileTheme:u.profileTheme||'blue',profileFrame:u.profileFrame||'none',ownedFrames:Array.isArray(u.ownedFrames)?u.ownedFrames:['none'],statusText:u.statusText||'',statusEmoji:u.statusEmoji||'',notificationSettings:u.notificationSettings||{enabled:false,preview:true,quietStart:'',quietEnd:''},reactionPacks:Array.isArray(u.reactionPacks)?u.reactionPacks:['classic'],level:Math.max(1,Number(u.level)||1),spentNC:Math.max(0,Number(u.spentNC)||0),ratingAverage:Math.max(0,Number(u.ratingAverage)||0),ratingCount:Math.max(0,Number(u.ratingCount)||0)};
   if(typeof u.balance==='number')S.balance=u.balance;
   if(u.numbers)S.nums=u.numbers.map(n=>({num:n.display,raw:n.number,main:!!n.main}));
   if(u.gifts){
@@ -701,7 +731,7 @@ function applyUser(u){
     S.mine=u.gifts.map(g=>{
       const key=g.k+':'+g.num;
       const old=prev.get(key)||{};
-      return {id:g.id||old.id||cached[key]||'',k:g.k,num:g.num,from:g.from||old.from||''};
+      return {id:g.id||old.id||cached[key]||'',k:g.k,num:g.num,from:g.from||old.from||'',ts:g.ts||old.ts||null};
     });
     persistGiftIds(u.id,S.mine);
   }
@@ -726,7 +756,7 @@ function passMode(m){pmode=m;$('segLogin').classList.toggle('on',m==='login');$(
  $('inName').hidden=m!=='register';$('pwHint').hidden=m!=='register';$('inPass').autocomplete=m==='register'?'new-password':'current-password';authTab('pass')}
 function showForms(only){['pass','email','code','num','guest'].forEach(x=>{const el=$('f-'+x);if(el)el.hidden=x!==only})}
 const AVERR={file_too_large:'Файл больше 5 МБ',unsupported_type:'Только JPEG, PNG или WebP',invalid_image:'Не удалось прочитать изображение',image_too_complex:'Изображение слишком сложное, выберите другое',no_file:'Файл не выбран',invalid_upload:'Некорректная загрузка',avatar_storage_unavailable:'Хранилище фото на сервере не настроено',avatar_upload_failed:'Не удалось загрузить фото, попробуйте ещё раз',avatar_delete_failed:'Не удалось удалить фото, попробуйте ещё раз',avatar_busy:'Фото уже обрабатывается',too_many_requests:'Слишком много загрузок, подождите немного'};
-const ERR={...AVERR,invalid_email:'Некорректный email',invalid_username:'Логин: 3–24 символа, a–z, 0–9 и _',password_too_short:'Пароль: минимум 8 символов',password_too_long:'Пароль слишком длинный',invalid_name:'Имя: от 2 до 32 символов',username_taken:'Этот логин уже занят',invalid_credentials:'Неверный логин или пароль',password_not_set:'У этого аккаунта нет пароля. Войдите по коду на email («Другой способ входа») и задайте пароль в настройках',turnstile_failed:'Проверка не пройдена, попробуйте ещё раз',legacy_email_auth_disabled:'Вход по email отключён',legacy_registration_disabled:'Регистрация по email отключена',current_password_required:'Введите текущий пароль',current_password_invalid:'Текущий пароль неверный',database_unavailable:'База данных недоступна, попробуйте позже',otp_invalid:'Неверный код',otp_expired:'Код истёк',otp_locked:'Слишком много попыток',otp_not_found:'Запросите код снова',number_not_found:'Такой номер не зарегистрирован',invalid_number:'Формат: +888 и 8 цифр',guest_forbidden:'Недоступно в гостевом режиме',guest_expired:'Гостевой доступ закончился',invalid_rating:'Выберите оценку от 1 до 5 звёзд',cannot_rate_self:'Нельзя оценивать собственный профиль',cannot_rate_guest:'Нельзя оценивать гостевой профиль',insufficient_funds:'Недостаточно NC',recipient_not_found:'Получатель не найден',recipient_guest:'Гостям нельзя отправлять подарки',chat_request_pending:'Сначала дождитесь принятия запроса на переписку',request_declined:'Пользователь отклонил запрос. Повторить можно через 24 часа',edit_window_expired:'Время для редактирования истекло',message_not_found:'Сообщение не найдено',number_taken:'Номер уже занят',number_not_owned:'Этот номер вам не принадлежит',item_not_found:'Подарок не найден',invalid_gift:'Неизвестный подарок',same_user:'Нельзя отправить себе из инвентаря этим способом',empty_message:'Пустое сообщение',invalid_request:'Некорректный запрос',blocked:'Аккаунт заблокирован',server_error:'Ошибка сервера',not_found:'Не найдено',unauthorized:'Нужно войти заново',invalid_token:'Сессия истекла, войдите заново',http_404:'Сервер не знает этот запрос. Обновите бэкенд на Render',http_502:'Сервер просыпается, повторите через полминуты',http_503:'Сервер просыпается, повторите через полминуты',http_504:'Сервер просыпается, повторите через полминуты'};
+const ERR={...AVERR,chat_storage_unavailable:'Хранилище файлов не настроено на сервере',chat_file_too_large:'Файл больше 20 МБ',file_type_blocked:'Этот тип файла нельзя отправить',invalid_voice_file:'Не удалось обработать голосовое сообщение',voice_too_long:'Голосовое сообщение не должно быть длиннее 2 минут',invalid_upload_kind:'Неизвестный тип загрузки',no_file:'Файл не выбран',chat_upload_failed:'Не удалось загрузить файл',upload_expired:'Загрузка устарела. Попробуйте ещё раз',file_link_expired:'Ссылка на файл истекла. Обновите чат',invalid_file_link:'Недействительная ссылка на файл',file_not_found:'Файл не найден',file_download_failed:'Не удалось скачать файл',invalid_email:'Некорректный email',invalid_username:'Логин: 3–24 символа, a–z, 0–9 и _',password_too_short:'Пароль: минимум 8 символов',password_too_long:'Пароль слишком длинный',invalid_name:'Имя: от 2 до 32 символов',username_taken:'Этот логин уже занят',invalid_credentials:'Неверный логин или пароль',password_not_set:'У этого аккаунта нет пароля. Войдите по коду на email («Другой способ входа») и задайте пароль в настройках',turnstile_failed:'Проверка не пройдена, попробуйте ещё раз',legacy_email_auth_disabled:'Вход по email отключён',legacy_registration_disabled:'Регистрация по email отключена',current_password_required:'Введите текущий пароль',current_password_invalid:'Текущий пароль неверный',database_unavailable:'База данных недоступна, попробуйте позже',otp_invalid:'Неверный код',otp_expired:'Код истёк',otp_locked:'Слишком много попыток',otp_not_found:'Запросите код снова',number_not_found:'Такой номер не зарегистрирован',invalid_number:'Формат: +888 и 8 цифр',guest_forbidden:'Недоступно в гостевом режиме',guest_expired:'Гостевой доступ закончился',invalid_rating:'Выберите оценку от 1 до 5 звёзд',cannot_rate_self:'Нельзя оценивать собственный профиль',cannot_rate_guest:'Нельзя оценивать гостевой профиль',insufficient_funds:'Недостаточно NC',recipient_not_found:'Получатель не найден',recipient_guest:'Гостям нельзя отправлять подарки',chat_request_pending:'Сначала дождитесь принятия запроса на переписку',request_declined:'Пользователь отклонил запрос. Повторить можно через 24 часа',edit_window_expired:'Время для редактирования истекло',message_not_found:'Сообщение не найдено',number_taken:'Номер уже занят',number_not_owned:'Этот номер вам не принадлежит',item_not_found:'Подарок не найден',invalid_gift:'Неизвестный подарок',same_user:'Нельзя отправить себе из инвентаря этим способом',empty_message:'Пустое сообщение',invalid_request:'Некорректный запрос',blocked:'Аккаунт заблокирован',server_error:'Ошибка сервера',not_found:'Не найдено',unauthorized:'Нужно войти заново',invalid_token:'Сессия истекла, войдите заново',http_404:'Сервер не знает этот запрос. Обновите бэкенд на Render',http_502:'Сервер просыпается, повторите через полминуты',http_503:'Сервер просыпается, повторите через полминуты',http_504:'Сервер просыпается, повторите через полминуты'};
 function errMsg(e){
  if(e.message==='rate_limited'){const n=e.data&&e.data.retryAfter;return n?'Слишком много попыток. Повторите через '+(n>90?Math.ceil(n/60)+' мин':n+' с'):'Слишком много попыток. Подождите немного'}
  if(e.message==='blocked'){const until=e.data&&e.data.until;const reason=e.data&&e.data.reason;let s='Аккаунт заблокирован';if(until)s+=' до '+new Date(until).toLocaleString('ru');else s+=' навсегда';if(reason)s+=' · '+reason;return s}
@@ -815,7 +845,7 @@ function start(g){S.guest=g;$('auth').hidden=true;$('app').classList.add('on');$
  if(g){gEnd=S.me.exp||Date.now()+864e5;const u=()=>{const l=Math.max(0,gEnd-Date.now()),p=n=>String(n).padStart(2,'0');$('gtxt').textContent=`Гостевой режим: ${p(l/36e5|0)}:${p((l/6e4|0)%60)}:${p((l/1e3|0)%60)}`;if(l<=0)logout()};u();gTimer=setInterval(u,1e3)}
  else $('guest').hidden=true;
  renderFolders();renderList();startSync();setTimeout(handleProfileDeepLink,450)}
-function logout(){stopSync();clearInterval(gTimer);closeAll();S.cur=null;$('app').classList.remove('open','on');$('auth').hidden=false;$('chat').style.visibility='hidden';setToken('');authTab('pass');pendingEmail='';pendingNumber='';$('inEmail').value='';$('inCode').value='';$('inNum').value='';$('autherr').textContent='';$('altToggle').style.display='';$('inUser').value='';$('inPass').value='';$('inName').value='';tsReset();S.balance=0;S.me={name:'Nex User',user:'nex_user',email:'—',verified:false,privacy:{showLastSeen:true,showReadReceipts:true},profileTheme:'blue',profileFrame:'none',ownedFrames:['none'],statusText:'',notificationSettings:{enabled:false,preview:true,quietStart:'',quietEnd:''},reactionPacks:['classic']};S.typing={};S.pins={};S.gres=[];S.searchResults=[];renderList()}
+function logout(){stopSync();clearInterval(gTimer);closeAll();S.cur=null;$('app').classList.remove('open','on');$('auth').hidden=false;$('chat').style.visibility='hidden';setToken('');authTab('pass');pendingEmail='';pendingNumber='';$('inEmail').value='';$('inCode').value='';$('inNum').value='';$('autherr').textContent='';$('altToggle').style.display='';$('inUser').value='';$('inPass').value='';$('inName').value='';tsReset();S.balance=0;S.me={name:'Nex User',user:'nex_user',email:'—',verified:false,privacy:{showLastSeen:true,showReadReceipts:true},profileTheme:'blue',profileFrame:'none',ownedFrames:['none'],statusText:'',statusEmoji:'',notificationSettings:{enabled:false,preview:true,quietStart:'',quietEnd:''},reactionPacks:['classic']};S.typing={};S.pins={};S.gres=[];S.searchResults=[];renderList()}
 /* ---------- LIST ---------- */
 function renderFolders(){const F=[['all','Все'],['dm','Личные'],['group','Группы'],['channel','Каналы']];
  $('folders').innerHTML=F.map(([k,n])=>`<button class="fold ${S.f===k?'on':''}" onclick="S.f='${k}';renderFolders();renderList()">${n}</button>`).join('')}
@@ -859,6 +889,10 @@ const RX_INFO={
 };
 const THEME_INFO={blue:{name:'Nex Blue',color:'#2aabee'},violet:{name:'Violet',color:'#aa8bff'},mint:{name:'Mint',color:'#55d6ae'},sunset:{name:'Sunset',color:'#ff9a73'}};
 function reactionSvg(id){const r=RX_INFO[id];return r?`<svg class="rx-svg rx-${id}" viewBox="0 0 48 48" aria-hidden="true">${r.svg}</svg>`:''}
+const STATUS_MARKS=[['','Без значка'],['verified','Подтверждён'],['online','На связи'],['busy','Занят'],['away','Отошёл'],['work','Работаю'],['gaming','Играю'],['music','Музыка'],['love','Влюблён'],['fire','На огне'],['coffee','Кофе'],['sleep','Сплю'],['plane','В пути'],['book','Читаю'],['camera','Фото'],['crown','VIP'],['bolt','Энергия'],['flower','Цветок'],['heart','Любовь'],['cat','Кот'],['dog','Пёс'],['party','Праздник'],['leaf','Эко'],['ghost','Инкогнито'],['gamepad','Геймер'],['chat','Общение'],['coffee2','Перерыв']];
+function statusMark(id,large=false){return id&&STATUS_MARKS.some(x=>x[0]===id)?`<svg class="status-mark" style="${large?'width:26px;height:26px;flex-basis:26px':''}" viewBox="0 0 24 24" aria-hidden="true"><use href="#status-${id}"></use></svg>`:''}
+function statusPicker(selected){return `<div class="status-picker">${STATUS_MARKS.map(([id,label])=>`<button type="button" class="status-pick ${selected===id?'active':''}" onclick="selectStatusMark('${id}')" aria-label="${label}">${id?`<svg viewBox="0 0 24 24"><use href="#status-${id}"></use></svg>`:'<span style="font-size:20px">—</span>'}<span>${label}</span></button>`).join('')}</div>`}
+function selectStatusMark(id){const el=$('edStatusEmoji');if(el)el.value=id;document.querySelectorAll('.status-pick').forEach(x=>x.classList.toggle('active',x.getAttribute('aria-label')===((STATUS_MARKS.find(v=>v[0]===id)||[])[1]||'Без значка')))}
 function verifiedBadge(on,large=false){return on?`<span class="vmark${large?' large':''}" title="Аккаунт подтверждён Nex"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8 14.8 3l3-.1 1.5 2.6 2.6 1.5-.1 3 1.2 2.8-1.2 2.8.1 3-2.6 1.5-1.5 2.6-3-.1-2.8 1.2-2.8-1.2-3 .1-1.5-2.6-2.6-1.5.1-3L1 12l1.2-2.8-.1-3 2.6-1.5L6.2 2.1l3 .1L12 1.8Z" fill="currentColor"/><path d="m7.5 12.2 3 3 6.3-6.4" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`:''}
 function lastSeenLabel(user){if(!user)return '';if(user.activityHidden)return 'статус скрыт';if(user.online)return 'в сети';if(!user.lastSeenAt)return 'не в сети';const ts=Number(user.lastSeenAt),d=new Date(ts);const same=new Date().toDateString()===d.toDateString();const yesterday=new Date(Date.now()-864e5).toDateString()===d.toDateString();return `был(а) ${same?'сегодня':yesterday?'вчера':d.toLocaleDateString('ru',{day:'numeric',month:'short'})} в ${hm(ts)}`}
 function availableReactions(){const owned=new Set(S.me.reactionPacks||['classic']);return Object.values(RX_INFO).filter(x=>owned.has(x.pack)).map(x=>Object.keys(RX_INFO).find(k=>RX_INFO[k]===x))}
@@ -881,7 +915,8 @@ function renderMsgs(){const c=cur();if(!c)return;let h='',pd='',pv=null;
   if(m.gift&&GIFTS[m.gift.k]){const g=GIFTS[m.gift.k],R=RAR[g.r];h+=`<div class="gcard ${nw}" data-mid="${m.id}" style="--rc:${R[1]}" onclick="viewGift('${m.gift.k}',${m.gift.num})">${pat()}${m.fwd?`<small>Переслано от ${esc(m.fwd)}</small>`:''}<div class="ga">${art(m.gift.k)}</div><b>${g.n} #${m.gift.num}</b><small>${m.fwd?'Сохранённый подарок':out?'Вы отправили подарок':'Вам отправили подарок'}</small><br><span class="rt">${R[0]}</span>${meta}</div>${reactionHtml(m)}`;return}
   if(m.numgift){h+=`<div class="gcard ${nw}" data-mid="${m.id}" style="--rc:#4ea1ff">${pat()}${m.fwd?`<small>Переслано от ${esc(m.fwd)}</small>`:''}<div class="numga">${ic('phone')}</div><b class="mono">${esc(m.numgift)}</b><small>${m.fwd?'Сохранённый номер':out?'Вы подарили анонимный номер':'Вам подарили анонимный номер'}</small><br><span class="rt">Анонимный номер</span>${meta}</div>${reactionHtml(m)}`;return}
   const au=!out&&first&&c.t==='group'&&m.au?`<span class="au" style="color:${GR[m.ac%7][0]}">${esc(m.au)}</span>`:'';
-  const body=m.file?`<div class="file"><div class="fi">${ic('file')}</div><div><b>${esc(m.file.name)}</b><small>${esc(m.file.size||'')}</small></div></div>${m.text?esc(m.text):''}`:esc(m.text||'');
+  const fileSizeLabel=value=>{const n=Number(value)||0;return n>=1048576?(n/1048576).toFixed(1)+' МБ':Math.max(1,Math.round(n/1024))+' КБ'};
+  const body=m.file?(m.file.kind==='voice'?`<div class="voice-player"><div style="min-width:0;flex:1"><audio controls preload="none" src="${esc(API+(m.file.url||''))}"></audio><div class="voice-label">Голосовое · ${fileSizeLabel(m.file.size)}</div></div></div>`:`<a class="file-card" href="${esc(API+(m.file.url||''))}" target="_blank" rel="noopener" download><span class="fi">${ic(m.file.mime&&m.file.mime.startsWith('image/')?'image':'file')}</span><span class="file-info"><b>${esc(m.file.name||'Файл')}</b><small>${fileSizeLabel(m.file.size)}</small></span><span class="file-download">${ic('download')}</span></a>${m.text?esc(m.text):''}`):esc(m.text||'');
   h+=`<div class="row ${out?'out':'in'} ${tail?'tail':''} ${nw}" data-mid="${m.id}"><div class="bub">${au}${fw}${replyHtml(m)}${body}${meta}${reactionHtml(m)}</div></div>`});
  if(!c.msgs.length)h=`<div class="svc" style="margin-top:30vh"><span>${c.kind==='saved'?'Здесь можно хранить заметки и пересланные сообщения.':'Сообщений пока нет. Напишите первым.'}</span></div>`;
  $('msgs').classList.toggle('has-pin',!!(S.pins&&S.pins[c.uid]));$('msgs').innerHTML=h;S.newId=null;$('msgs').scrollTop=1e9;hydrateArts($('msgs'))}
@@ -1024,10 +1059,85 @@ async function sendMsg(body){const c=cur();if(!c||c.kind==='svc')return false;
  try{const r=await api('/messages',{method:'POST',body:JSON.stringify(Object.assign({to:c.uid},body))});
   pendingReply=null;cancelReply();applyMsg(r.msg,seenMap());renderMsgs();renderList();return true}
  catch(e){toast(errMsg(e));return false}}
-function sendBtn(){const t=$('inp').value.trim();if(!t)return toast('Голосовые сообщения скоро появятся');
+function sendBtn(){const t=$('inp').value.trim();if(!t)return;
  $('inp').value='';inpUp();$('emo').hidden=true;
  sendMsg({text:t}).then(ok=>{if(!ok&&!$('inp').value){$('inp').value=t;inpUp()}})}
-function sendFile(el){const f=el.files[0];if(!f)return;const s=f.size>1048576?(f.size/1048576).toFixed(1)+' МБ':Math.max(1,Math.round(f.size/1024))+' КБ';sendMsg({file:{name:f.name,size:s}});el.value=''}
+async function uploadChatAttachment(file,kind='file'){
+ const c=cur();if(!c||!c.uid||c.kind==='svc')return toast('В этом чате нельзя отправлять файлы');
+ if(file.size<=0)return toast('Файл пустой');
+ if(file.size>20*1024*1024)return toast('Максимальный размер файла — 20 МБ');
+ const form=new FormData();form.append('to',c.uid);form.append('kind',kind);form.append('file',file,kind==='voice'?'voice-message.'+((file.type.split('/')[1]||'webm').split(';')[0]):file.name);
+ try{
+  $('sendb').disabled=true;
+  const uploaded=await api('/messages/upload',{method:'POST',body:form});
+  const ok=await sendMsg({uploadId:uploaded.uploadId});
+  if(ok)toast(kind==='voice'?'Голосовое отправлено':'Файл отправлен');
+  else toast('Файл загружен, но сообщение не отправлено. Попробуйте ещё раз');
+ }catch(e){toast(errMsg(e))}
+ finally{$('sendb').disabled=false}
+}
+function sendFile(el){const f=el.files&&el.files[0];el.value='';if(f)uploadChatAttachment(f,'file')}
+let isVoiceRecording=false,voiceRecorder=null,voiceStream=null,voiceChunks=[],voiceStartedAt=0,voiceTimer=null,voiceLimitTimer=null,voiceCancelled=false;
+let voicePressActive=false,voicePressPending=false,voicePressPointerId=null;
+function voiceTimeLabel(ms){const n=Math.max(0,Math.floor(ms/1000));return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}
+function updateVoiceUI(){const btn=$('sendb'),bar=$('voiceBar');if(isVoiceRecording){btn.classList.add('recording');btn.setAttribute('aria-label','Отпустите, чтобы отправить голосовое');btn.title='Отпустите, чтобы отправить';btn.innerHTML='<svg class="i"><use href="#i-mic"/></svg>';bar.hidden=false;$('inp').placeholder='Идёт запись голосового…'}else{btn.classList.remove('recording');const hasText=!!$('inp').value.trim();btn.setAttribute('aria-label',hasText?'Отправить сообщение':'Зажмите для записи голосового сообщения');btn.title=hasText?'Отправить сообщение':'Зажмите для записи';btn.innerHTML=`<svg class="i"><use href="#i-${hasText?'send':'mic'}"/></svg>`;bar.hidden=true;$('inp').placeholder='Сообщение';}if(typeof inpUp==='function')inpUp()}
+async function startVoiceRecording(){
+ if(isVoiceRecording||voicePressPending||!voicePressActive)return;
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||typeof MediaRecorder==='undefined')return toast('Запись голосовых не поддерживается этим браузером. Откройте Nex через HTTPS в Chrome');
+ const c=cur();if(!c||!c.uid||c.kind==='svc')return toast('В этом чате нельзя отправлять голосовые');
+ voicePressPending=true;
+ try{
+  const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+  // Пользователь мог отпустить кнопку, пока Android показывал диалог разрешения.
+  if(!voicePressActive){stream.getTracks().forEach(track=>track.stop());return}
+  voiceStream=stream;
+  const mimeCandidates=['audio/webm;codecs=opus','audio/ogg;codecs=opus','audio/mp4'];
+  const mimeType=mimeCandidates.find(x=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(x))||'';
+  voiceRecorder=new MediaRecorder(voiceStream,mimeType?{mimeType}:undefined);voiceChunks=[];voiceCancelled=false;voiceStartedAt=Date.now();$('voiceTime').textContent='00:00';isVoiceRecording=true;updateVoiceUI();
+  voiceRecorder.ondataavailable=e=>{if(e.data&&e.data.size)voiceChunks.push(e.data)};
+  voiceRecorder.onerror=()=>{voiceCancelled=true;stopVoiceRecording(true);toast('Ошибка записи голосового')};
+  voiceRecorder.onstop=async()=>{
+   isVoiceRecording=false;clearInterval(voiceTimer);clearTimeout(voiceLimitTimer);voiceTimer=null;voiceLimitTimer=null;updateVoiceUI();
+   const duration=Date.now()-voiceStartedAt;const mime=voiceRecorder&&voiceRecorder.mimeType||mimeType||'audio/webm';
+   const blob=new Blob(voiceChunks,{type:mime});voiceChunks=[];
+   if(voiceStream){voiceStream.getTracks().forEach(track=>track.stop());voiceStream=null}
+   if(!voiceCancelled&&blob.size){const ext=mime.includes('ogg')?'ogg':mime.includes('mp4')?'m4a':mime.includes('mpeg')?'mp3':'webm';if(duration>120000){toast('Голосовое длиннее 2 минут')}else if(duration<250){toast('Удерживайте микрофон немного дольше')}else{const file=new File([blob],'voice-message.'+ext,{type:mime});await uploadChatAttachment(file,'voice')}}
+   voiceRecorder=null;
+  };
+  voiceRecorder.start(500);
+  // Если палец уже отпущен сразу после завершения запроса разрешения, не оставляем запись включённой.
+  if(!voicePressActive){stopVoiceRecording(false);return}
+  voiceTimer=setInterval(()=>{$('voiceTime').textContent=voiceTimeLabel(Date.now()-voiceStartedAt)},250);
+  voiceLimitTimer=setTimeout(()=>{if(isVoiceRecording){toast('Достигнут лимит 2 минуты');stopVoiceRecording(false)}},120000);
+ }catch(e){if(voiceStream)voiceStream.getTracks().forEach(track=>track.stop());voiceStream=null;isVoiceRecording=false;updateVoiceUI();toast(e&&e.name==='NotAllowedError'?'Разрешите доступ к микрофону в настройках браузера':'Не удалось включить микрофон. Проверьте разрешение и HTTPS')}
+ finally{voicePressPending=false}
+}
+function stopVoiceRecording(cancel){
+ voicePressActive=false;voicePressPointerId=null;voiceCancelled=!!cancel;isVoiceRecording=false;clearInterval(voiceTimer);clearTimeout(voiceLimitTimer);voiceTimer=null;voiceLimitTimer=null;updateVoiceUI();
+ if(voiceRecorder&&voiceRecorder.state!=='inactive'){try{voiceRecorder.stop()}catch(e){}}
+ else if(voiceStream){voiceStream.getTracks().forEach(track=>track.stop());voiceStream=null}
+}
+function cancelVoiceRecording(){stopVoiceRecording(true);voiceChunks=[];toast('Запись отменена')}
+function finishVoicePress(cancel,pointerId){
+ if(pointerId!=null&&voicePressPointerId!=null&&pointerId!==voicePressPointerId)return;
+ if(!voicePressActive&&!isVoiceRecording)return;
+ voicePressActive=false;voicePressPointerId=null;
+ if(isVoiceRecording)stopVoiceRecording(!!cancel);
+}
+const voiceButton=$('sendb');
+voiceButton.addEventListener('pointerdown',e=>{
+ if(e.button!==undefined&&e.button!==0)return;if(e.isPrimary===false)return;
+ if($('inp').value.trim())return; // при введённом тексте кнопка остаётся обычной кнопкой отправки
+ e.preventDefault();voicePressActive=true;voicePressPointerId=e.pointerId;
+ try{voiceButton.setPointerCapture(e.pointerId)}catch(err){}
+ startVoiceRecording();
+});
+voiceButton.addEventListener('pointerup',e=>finishVoicePress(false,e.pointerId));
+voiceButton.addEventListener('pointercancel',e=>finishVoicePress(true,e.pointerId));
+voiceButton.addEventListener('lostpointercapture',e=>finishVoicePress(true,e.pointerId));
+voiceButton.addEventListener('click',()=>{if($('inp').value.trim())sendBtn()});
+window.addEventListener('blur',()=>finishVoicePress(true));
+document.addEventListener('visibilitychange',()=>{if(document.hidden)finishVoicePress(true)});
 async function delMsg(id,all){try{await api('/messages/'+id+(all?'?all=1':''),{method:'DELETE'})}catch(e){return toast(errMsg(e))}
  S.chats.forEach(ch=>{ch.msgs=ch.msgs.filter(m=>m.id!==id)});saveMsgCache();renderMsgs();renderList()}
 function findMsg(id){const c=cur();return c&&c.msgs.find(m=>m.id===id)}
@@ -1061,7 +1171,7 @@ async function editMsg(id){const m=findMsg(id),c=cur();closeSheet('act');if(!m||
 function copyMsg(id){const m=findMsg(id);closeSheet('act');if(m&&m.text){navigator.clipboard&&navigator.clipboard.writeText(m.text);toast('Скопировано')}}
 async function fwdSaved(id){const c=cur(),m=findMsg(id);closeSheet('act');if(!m)return;
  const body={to:S.me.id,fwd:m.from==='out'?S.me.name:c.name};
- if(m.text)body.text=m.text;if(m.file)body.file=m.file;if(m.gift)body.gift=m.gift;if(m.numgift)body.numgift=m.numgift;
+ if(m.text)body.text=m.text;if(m.file)body.file=Object.assign({},m.file,{messageId:m.id});if(m.gift)body.gift=m.gift;if(m.numgift)body.numgift=m.numgift;
  try{await api('/messages',{method:'POST',body:JSON.stringify(body)});toast('Переслано в Избранное');sync()}catch(e){toast(errMsg(e))}}
 let lp=null,lpx=0,lpy=0;const MS=$('msgs');
 MS.addEventListener('pointerdown',e=>{const t=e.target.closest('[data-mid]');if(!t)return;lpx=e.clientX;lpy=e.clientY;clearTimeout(lp);lp=setTimeout(()=>{lp=null;if(navigator.vibrate)navigator.vibrate(12);msgMenu(t.dataset.mid)},450)});
@@ -1070,17 +1180,23 @@ MS.addEventListener('pointermove',e=>{if(lp&&Math.hypot(e.clientX-lpx,e.clientY-
 MS.addEventListener('contextmenu',e=>{const t=e.target.closest('[data-mid]');if(!t)return;e.preventDefault();clearTimeout(lp);lp=null;msgMenu(t.dataset.mid)});
 function openChatCard(){const c=cur();if(!c)return;if(c.kind==='saved')return openProfile();if(c.kind==='svc')return toast('Служебный чат Nex');if(c.t!=='dm'||!c.uname)return toast('Информация недоступна');openUserCard(c.uname)}
 async function openUserCard(un){try{const u=await api('/users/'+encodeURIComponent(un));S.users[u.id]=Object.assign(S.users[u.id]||{},u);S.card=u;drawUser();openSheet('user')}catch(e){toast(e.message==='not_found'?'Пользователь не найден':errMsg(e))}}
+const COLLECTION_FILTERS=[['all','Все'],['common','Обычные'],['rare','Редкие'],['epic','Эпические'],['legendary','Легендарные']];
+let collectionFilter='all';
+function collectionStats(gifts){const valid=(gifts||[]).filter(g=>GIFTS[g.k]);const types=new Set(valid.map(g=>g.k));return {total:valid.length,types:types.size,rare:valid.filter(g=>GIFTS[g.k].r==='rare').length}}
+function openGiftCollection(gifts,title){const list=(gifts||[]).filter(g=>GIFTS[g.k]).slice().sort((a,b)=>(Number(b.ts)||Number(b.num)||0)-(Number(a.ts)||Number(a.num)||0));collectionFilter='all';
+ const draw=()=>{const filtered=collectionFilter==='all'?list:list.filter(g=>GIFTS[g.k].r===collectionFilter);const stats=collectionStats(list);$('s-act').innerHTML=`<div class="collection-head"><div><h3>${esc(title||'Коллекция подарков')}</h3><p class="sub">${stats.total} экземпляров · ${stats.types} вида</p></div><div class="collection-stat">🎁 <b>${stats.total}</b></div></div><div class="collection-filters">${COLLECTION_FILTERS.map(([id,label])=>`<button class="collection-filter ${collectionFilter===id?'active':''}" onclick="collectionFilter='${id}';openGiftCollectionRender()">${label}${id==='all'?' ('+stats.total+')':''}</button>`).join('')}</div>${filtered.length?`<div class="gg collection-grid">${filtered.map(g=>{const gift=GIFTS[g.k],rar=RAR[gift.r];return `<button class="gt" style="--rc:${rar[1]}" onclick="viewGift('${g.k}',${Number(g.num)||0},'${esc(g.id||'')}')">${pat()}<div class="ga">${art(g.k)}</div><b>${esc(gift.n)}</b><small>#${Number(g.num)||'—'} · ${rar[0]}</small></button>`}).join('')}</div>`:'<div class="none" style="padding:20px">В этой категории пока нет подарков</div>'}<button class="act" onclick="closeSheet('act')">Закрыть</button>`;hydrateArts($('s-act'))};
+ window.openGiftCollectionRender=draw;draw();openSheet('act')}
 function drawUser(){const u=S.card,me=u.id===S.me.id,nums=u.numbers||[],gs=u.gifts||[],ratingCount=Number(u.ratingCount)||0,ratingAverage=Number(u.ratingAverage)||0;
  $('s-user').innerHTML=`<div class="uh profile-theme-${u.profileTheme||'blue'}">${av({name:u.name,col:u.id.charCodeAt(0)%7,avatar:u.avatar_url,profileFrame:u.profileFrame},84)}
  <div class="profile-title-row"><div class="profile-title-main"><h3>${esc(u.name)}${verifiedBadge(u.verified,true)}</h3><small>@${esc(u.username)}</small><button type="button" class="profile-level" onclick="openLevelProgress(${Math.max(1,Number(u.level)||1)},${Math.max(0,Number(u.spentNC)||0)})" aria-label="Посмотреть прогресс уровня">Уровень ${Math.max(1,Number(u.level)||1)} ›</button></div>${!me&&!S.guest?`<button class="ib profile-more" onclick="toggleUserMenu()" aria-label="Дополнительно">${ic('more')}</button>`:''}</div>
- ${u.verified?'<small class="verified-note">Этот аккаунт подтверждён Nex</small>':''}<small>в Nex с ${new Date(u.createdAt).toLocaleDateString('ru',{month:'long',year:'numeric'})}</small>${u.statusText?`<div class="status-note">${esc(u.statusText)}</div>`:''}
+ ${u.verified?'<small class="verified-note">Этот аккаунт подтверждён Nex</small>':''}<small>в Nex с ${new Date(u.createdAt).toLocaleDateString('ru',{month:'long',year:'numeric'})}</small>${u.statusText?`<div class="status-note">${statusMark(u.statusEmoji)}<span>${esc(u.statusText)}</span></div>`:''}
  ${!me&&!S.guest?`<div class="profile-menu" id="userProfileMenu" hidden><button class="profile-menu-item" onclick="openProfileRating()">${ic('star')}Оценить профиль</button></div>`:''}</div>
  <div style="display:flex;gap:8px;margin-bottom:8px"><button class="btn" onclick="openUserChat('${u.id}')">${ic('chat','sm')} Написать</button>${me||S.guest?'':`<button class="btn sec" onclick="giftToUser()">${ic('gift','sm')} Подарок</button>`}</div>
  <div class="inv-head" style="padding-left:0;padding-right:0"><b>Анонимные номера</b><span class="inv-tag">${nums.length}</span></div>
  ${nums.length?nums.map(n=>`<div class="inv-item" style="padding-left:0;padding-right:0"><span style="color:var(--acc)">${ic('phone')}</span><span class="numtxt">${esc(n.display)}</span>${n.main?'<span class="inv-tag">Основной</span>':''}</div>`).join(''):'<div class="none" style="padding:12px">Нет номеров</div>'}
  <div class="profile-rating"><div class="profile-rating-row"><b class="profile-rating-title">Оценка профиля</b><span class="profile-rating-score">${ratingCount?ratingAverage.toFixed(1):'—'} ${ic('star')}</span></div><small>${ratingCount?`На основании ${ratingCount} оценок`:'Пока нет оценок'}</small></div>
- <div class="inv-head" style="padding-left:0;padding-right:0"><b>Подарки</b><span class="inv-tag">${gs.length}</span></div>
- ${gs.length?`<div class="gg" style="padding:0">${gs.filter(g=>GIFTS[g.k]).map(g=>`<div class="gt" style="--rc:${RAR[GIFTS[g.k].r][1]}" onclick="viewGift('${g.k}',${g.num},'${g.id||''}')">${pat()}<div class="ga">${art(g.k)}</div><b>${GIFTS[g.k].n}</b><small>#${g.num}</small></div>`).join('')}</div>`:'<div class="none" style="padding:12px">Подарков пока нет</div>'}`;hydrateArts($('s-user'))}
+ <div class="inv-head" style="padding-left:0;padding-right:0"><b>Коллекция подарков</b><span class="inv-tag">${collectionStats(gs).total}</span></div>
+ ${gs.length?`<button class="btn sec" style="width:100%;margin-bottom:8px" onclick="openGiftCollection(S.card.gifts||[],'Коллекция @${esc(u.username)}')">Открыть коллекцию · ${collectionStats(gs).types} вида</button>`:'<div class="none" style="padding:12px">Подарков пока нет</div>'}`;hydrateArts($('s-user'))}
 function formatNC(value){return Math.max(0,Math.floor(Number(value)||0)).toLocaleString('ru-RU')}
 function openLevelProgress(level,spentNC){const spent=Math.max(0,Math.floor(Number(spentNC)||0)),currentLevel=Math.max(1,Math.floor(Number(level)||Math.floor(spent/5000)+1)),within=spent%5000,remaining=5000-within,percent=Math.max(0,Math.min(100,within/5000*100));$('s-act').innerHTML=`<h3>Уровень ${currentLevel}</h3><p class="sub">Уровень растёт за потраченные NC. Пополнения и полученные переводы не учитываются.</p><div class="level-progress-track"><div class="level-progress-fill" style="width:${percent.toFixed(2)}%"></div></div><div class="level-progress-meta"><span>${formatNC(within)} из 5 000 NC</span><b>${Math.floor(percent)}%</b></div><p style="margin:14px 0 4px;font-weight:600">Осталось ${formatNC(remaining)} NC до уровня ${currentLevel+1}</p><small style="color:var(--sub)">Всего потрачено: ${formatNC(spent)} NC</small><button class="act" style="margin-top:14px" onclick="closeSheet('act')">Закрыть</button>`;openSheet('act')}
 function toggleUserMenu(){const menu=$('userProfileMenu');if(menu)menu.hidden=!menu.hidden}
@@ -1090,7 +1206,7 @@ function setProfileRating(value){profileRatingDraft=Math.max(1,Math.min(5,Number
 async function saveProfileRating(){const u=S.card;if(!u||!profileRatingDraft)return;try{await api('/users/'+encodeURIComponent(u.username)+'/rating',{method:'POST',body:JSON.stringify({rating:profileRatingDraft})});const updated=await api('/users/'+encodeURIComponent(u.username));S.card=Object.assign(S.card||{},updated);S.users[u.id]=Object.assign(S.users[u.id]||{},updated);closeSheet('rate');drawUser();toast('Оценка сохранена')}catch(e){toast(errMsg(e))}}
 function giftToUser(){const u=S.card;S.gt={uid:u.id,name:u.name};closeSheet('user');openShop(true)}
 
-function inpUp(){const t=$('inp');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,140)+'px';$('sendb').firstElementChild.innerHTML=`<use href="#i-${t.value.trim()?'send':'mic'}"/>`;$('chat').style.setProperty('--ih',($('ia').hidden?66:$('ia').offsetHeight)+'px')}
+function inpUp(){const t=$('inp');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,140)+'px';if(!isVoiceRecording){const hasText=!!t.value.trim(),btn=$('sendb');btn.firstElementChild.innerHTML=`<use href="#i-${hasText?'send':'mic'}"/>`;btn.setAttribute('aria-label',hasText?'Отправить сообщение':'Зажмите для записи голосового сообщения');btn.title=hasText?'Отправить сообщение':'Зажмите для записи'}$('chat').style.setProperty('--ih',($('ia').hidden?66:$('ia').offsetHeight)+'px')}
 $('msgs').addEventListener('scroll',()=>{const m=$('msgs');$('down').hidden=m.scrollHeight-m.scrollTop-m.clientHeight<260});
 function toBottom(){$('msgs').scrollTo({top:1e9,behavior:'smooth'})}
 $('inp').addEventListener('input',()=>{inpUp();typingInput()});$('inp').addEventListener('blur',()=>{if(!$('inp').value.trim())stopTyping()});
@@ -1312,7 +1428,8 @@ async function saveProfile(){
  if(!getToken()){S.me.name=name;S.me.user=user;renderProfile();toast('Профиль обновлён (локально)');return}
  try{
   const statusText=($('edStatus')&&$('edStatus').value||'').trim();
-  const u=await api('/me',{method:'PATCH',body:JSON.stringify({name,username:user,statusText})});
+  const statusEmoji=$('edStatusEmoji')?$('edStatusEmoji').value:'';
+  const u=await api('/me',{method:'PATCH',body:JSON.stringify({name,username:user,statusText,statusEmoji})});
   applyUser(u);renderProfile();toast('Профиль сохранён');
  }catch(e){
   toast(e.message==='username_taken'?'Username занят':(e.message||'Ошибка сохранения'));
@@ -1320,11 +1437,11 @@ async function saveProfile(){
 }
 function renderProfile(){S.page='p';const m=S.me;
  $('profile').innerHTML=`<div class="pbar"><button class="ib" onclick="closeProfile()" aria-label="Назад">${ic('back')}</button><h2>Профиль</h2></div>
- <div class="ph profile-theme-${m.profileTheme||'blue'}"><div class="av-edit${S.avBusy?' busy':''}" onclick="pickAvatar()" role="button" aria-label="Изменить фото">${av({name:m.name,avatar:m.avatar,col:5,profileFrame:m.profileFrame},96)}<span class="av-cam">${ic('camera')}</span></div><h1>${esc(m.name)}${verifiedBadge(m.verified,true)}</h1>${m.verified?'<small style="color:#8ac8ff">Этот аккаунт подтверждён Nex</small>':''}<small>@${esc(m.user)} · ${S.guest?'Гость':'в сети'}</small><button type="button" class="profile-level" onclick="openLevelProgress(${Math.max(1,Number(m.level)||1)},${Math.max(0,Number(m.spentNC)||0)})" aria-label="Посмотреть прогресс уровня">Уровень ${Math.max(1,Number(m.level)||1)} ›</button>${m.statusText?`<div class="status-note">${esc(m.statusText)}</div>`:''}</div>
+ <div class="ph profile-theme-${m.profileTheme||'blue'}"><div class="av-edit${S.avBusy?' busy':''}" onclick="pickAvatar()" role="button" aria-label="Изменить фото">${av({name:m.name,avatar:m.avatar,col:5,profileFrame:m.profileFrame},96)}<span class="av-cam">${ic('camera')}</span></div><h1>${esc(m.name)}${verifiedBadge(m.verified,true)}</h1>${m.verified?'<small style="color:#8ac8ff">Этот аккаунт подтверждён Nex</small>':''}<small>@${esc(m.user)} · ${S.guest?'Гость':'в сети'}</small><button type="button" class="profile-level" onclick="openLevelProgress(${Math.max(1,Number(m.level)||1)},${Math.max(0,Number(m.spentNC)||0)})" aria-label="Посмотреть прогресс уровня">Уровень ${Math.max(1,Number(m.level)||1)} ›</button>${m.statusText?`<div class="status-note">${statusMark(m.statusEmoji)}<span>${esc(m.statusText)}</span></div>`:''}</div>
  <div class="card"><h4>Аккаунт</h4>
   <div class="ln">${ic('user')}<div style="flex:1"><b>Имя</b><input class="field" id="edName" value="${esc(m.name)}" maxlength="32" style="margin-top:6px;padding:10px 12px"></div></div>
   <div class="ln">${ic('at')}<div style="flex:1"><b>Имя пользователя</b><input class="field" id="edUser" value="${esc(m.user)}" maxlength="24" style="margin-top:6px;padding:10px 12px" placeholder="username"><small style="display:block;margin-top:4px">@username · только латиница, цифры и _</small></div></div>
-  <div class="ln">${ic('user')}<div style="flex:1"><b>Статус</b><input class="field" id="edStatus" value="${esc(m.statusText||"")}" maxlength="70" placeholder="Напишите короткий статус" style="margin-top:6px;padding:10px 12px"><small style="display:block;color:var(--sub);margin-top:4px">До 70 символов</small></div></div>
+  <div class="ln">${ic('user')}<div style="flex:1"><b>Статус</b><div style="display:flex;gap:8px;margin-top:6px"><input type="hidden" id="edStatusEmoji" value="${esc(m.statusEmoji||'')}"><input class="field" id="edStatus" value="${esc(m.statusText||"")}" maxlength="70" placeholder="Напишите короткий статус" style="flex:1;padding:10px 12px"></div>${statusPicker(m.statusEmoji||'')}<small style="display:block;color:var(--sub);margin-top:4px">До 70 символов · выберите SVG-значок</small></div></div>
   <div class="ln">${ic('camera')}<div style="flex:1"><b>Фото профиля</b><small>JPEG, PNG или WebP · до 5 МБ</small></div><button class="btn sec" style="width:auto;padding:8px 14px" onclick="pickAvatar()">${m.avatar?'Заменить':'Загрузить'}</button>${m.avatar?`<button class="ib" onclick="removeAvatar()" aria-label="Удалить фото" style="color:var(--err)">${ic('trash')}</button>`:''}</div>
    <button class="btn" style="margin-top:8px" onclick="saveProfile()">Сохранить</button>
  </div>
@@ -1336,8 +1453,8 @@ function renderProfile(){S.page='p';const m=S.me;
   <div class="ln">${ic('lock')}<div><b>Кто может найти меня</b><small>По username · email скрыт</small></div></div>
  </div>
  <div class="card profile-own-rating"><h4>Оценка профиля</h4><div class="profile-rating"><div class="profile-rating-row"><b class="profile-rating-title">Общий рейтинг</b><span class="profile-rating-score">${Number(m.ratingCount)>0?Number(m.ratingAverage||0).toFixed(1):'—'} ${ic('star')}</span></div><small>${Number(m.ratingCount)>0?`На основании ${Number(m.ratingCount)} оценок`:'Пока нет оценок'}</small></div></div>
- <div class="card"><h4>Подарки <span style="color:var(--sub);font-weight:400">${S.mine.length}</span></h4>
-  ${S.mine.length?`<div class="gg">${S.mine.filter(g=>GIFTS[g.k]).map(g=>`<div class="gt" style="--rc:${RAR[GIFTS[g.k].r][1]}" onclick="viewGift('${g.k}',${g.num},'${g.id||''}')">${pat()}<div class="ga">${art(g.k)}</div><b>${GIFTS[g.k].n}</b><small>#${g.num}</small></div>`).join('')}</div>`:'<div class="ln"><div><small>Подарков пока нет</small></div></div>'}
+ <div class="card"><h4>Коллекция подарков <span style="color:var(--sub);font-weight:400">${collectionStats(S.mine).total}</span></h4>
+  ${S.mine.length?`<p class="sub">Собрано ${collectionStats(S.mine).types} ${collectionStats(S.mine).types===1?'вида':'видов'} подарков · ${collectionStats(S.mine).rare} редких</p><button class="btn sec" style="width:100%" onclick="openGiftCollection(S.mine,'Моя коллекция')">Открыть коллекцию</button>`:'<div class="ln"><div><small>Подарков пока нет</small></div></div>'}
  </div>
  <div class="card"><button class="di" style="color:var(--err)" onclick="logout()">${ic('out')}Выйти из аккаунта</button></div>`;hydrateArts($('profile'))}
 function renderSettings(){S.page='s';const m=S.me;
